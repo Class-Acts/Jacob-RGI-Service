@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html>
+const express = require('express');
+const app = express();
+const PORT = 4949;
 
-  <head>
-    <title>RGI Reviews Module</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-  </head>
+app.use(express.static('public'));
 
-  <body>
-    <div id="reviews-module"></div>
-    <script type="text/javascript" src="bundle.js"></script>
-  </body>
-
-</html>
+app.listen(PORT, () => {
+  console.log('listening on port ' + PORT);
+})

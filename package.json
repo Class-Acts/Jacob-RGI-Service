@@ -1,13 +1,14 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
-  "license": "",
+  "name": "rgi-reviews-module",
+  "description": "A module seeking to hew as closely to REI's User Product Reviews as possible",
+  "author": "Sam Quady",
   "engines": {
     "node": ">=6.13.0"
   },
-  "scripts": {},
+  "scripts": {
+    "build": "npx webpack -w",
+    "start": "nodemon server -w"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "react": "^17.0.1",
