@@ -11,6 +11,6 @@ CREATE TABLE users (
 DROP TABLE IF EXISTS `reviews`;
 CREATE TABLE reviews (
 
-  id smallint not null auto_increment, shoe_id tinyint not null, user_id smallint not null references users(id), review_date date not null, title varchar(40) not null, body varchar(1000) not null, stars tinyint not null, fit tinyint not null, width tinyint not null, helpful tinyint not null, reccomended tinyint(1) not null, primary key (id)
+  id smallint not null auto_increment, shoe_id tinyint not null, user_id smallint not null references users(id), review_date date not null, title varchar(40) not null, body varchar(1000) not null, stars tinyint not null, fit tinyint not null, width tinyint not null, helpful tinyint not null, recommended tinyint(1) not null, primary key (id)
 
   );
