@@ -4,7 +4,7 @@ USE reviews;
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE users (
 
-  id smallint not null auto_increment, name varchar(20) not null, number_reviews tinyint not null, typical_size varchar(20) not null, height varchar(10) not null, weight varchar(10) not null, age tinyint not null, location varchar(30) not null, primary key (id)
+  id smallint not null auto_increment, name varchar(20) not null, number_reviews tinyint not null, typical_size varchar(20) not null, height varchar(10) not null, weight varchar(20) not null, age varchar(20), location varchar(30) not null, primary key (id)
 
   );
 

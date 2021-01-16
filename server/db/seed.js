@@ -1,5 +1,8 @@
 const faker = require('faker');
-const db = require("..reviews-database.sql");
+//const db = require("./reviews-database.sql");
+const mysql = require('mysql');
+const Promise = require('bluebird');
+const database = 'reviews';
 
 const items = 100;
 
@@ -39,6 +42,7 @@ const userObjs = () => {
       dataHolder.push(userObj);
     }
   }
+  return dataHolder;
 }
 
 const reviewObjs = () => {
@@ -60,8 +64,55 @@ const reviewObjs = () => {
       dataHolder.push(userObj);
     }
   }
+  return dataHolder;
 }
 
+const moduleData = () => {
+  let data = {};
+  data.users = userObjs();
+  data.reviews = reviewObjs();
+  return data;
+}
+
+
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'reviews'
+});
+
+
+connection.connect((err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('connected');
+    let seedData = moduleData();
+    let query = "INSERT INTO users VALUES ?"
+    let userValues = [];
+    let index = 100;
+    for (let i = 0; i < index; i ++) {
+      let item = [];
+      item.push(i + 1);
+      item.push(seedData.users[index].name);
+      item.push(seedData.users[index].numberOfReviews);
+      item.push(seedData.users[index].typicalSize);
+      item.push(seedData.users[index].height);
+      item.push(seedData.users[index].weight);
+      item.push(seedData.users[index].age);
+      item.push(seedData.users[index].location);
+      userValues.push(item);
+    }
+    connection.query(query, [userValues], (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('inserted!');
+      }
+    })
+  }
+})
 
 //users categories - name, number of reviews, typical size, height, weight, age, location
 
