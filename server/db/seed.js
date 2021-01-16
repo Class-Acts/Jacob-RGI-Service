@@ -95,13 +95,13 @@ connection.connect((err) => {
     for (let i = 0; i < index; i ++) {
       let item = [];
       item.push(i + 1);
-      item.push(seedData.users[index].name);
-      item.push(seedData.users[index].numberOfReviews);
-      item.push(seedData.users[index].typicalSize);
-      item.push(seedData.users[index].height);
-      item.push(seedData.users[index].weight);
-      item.push(seedData.users[index].age);
-      item.push(seedData.users[index].location);
+      item.push(seedData.users[i].name);
+      item.push(seedData.users[i].numberOfReviews);
+      item.push(seedData.users[i].typicalSize);
+      item.push(seedData.users[i].height);
+      item.push(seedData.users[i].weight);
+      item.push(seedData.users[i].age);
+      item.push(seedData.users[i].location);
       userValues.push(item);
     }
     connection.query(query, [userValues], (err, result) => {
@@ -109,6 +109,30 @@ connection.connect((err) => {
         console.log(err);
       } else {
         console.log('inserted!');
+        let query2 = "INSERT INTO reviews VALUES ?"
+        let reviewValues = [];
+        for (let i = 0; i < index; i ++) {
+          let item = [];
+          item.push(i + 1);
+          item.push(seedData.reviews[i].shoeId);
+          item.push(seedData.reviews[i].userId);
+          item.push(seedData.reviews[i].date);
+          item.push(seedData.reviews[i].title);
+          item.push(seedData.reviews[i].body);
+          item.push(seedData.reviews[i].stars);
+          item.push(seedData.reviews[i].fit);
+          item.push(seedData.reviews[i].width);
+          item.push(seedData.reviews[i].helpful);
+          item.push(seedData.reviews[i].recommended);
+          reviewValues.push(item);
+        }
+        connection.query(query2, [reviewValues], (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log('inserted!');
+          }
+        })
       }
     })
   }
