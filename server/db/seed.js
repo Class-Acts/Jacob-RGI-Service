@@ -46,7 +46,7 @@ const userObjs = () => {
 const reviewObjs = () => {
   let dataHolder = [];
   for (let index = 0; index < items; index ++) {
-    let reviews = randomNumber(0, 40);
+    let reviews = randomNumber(0, 60);
     for (let i = 0; i < reviews; i++) {
       let reviewObj = {};
       reviewObj.shoeId = randomNumber(0, 101);
@@ -67,9 +67,17 @@ const reviewObjs = () => {
 
 const seedUsers = () => {
   let data = userObjs();
-  let chunks = [];
+  let chunks = [[]];
+  let counter = 0;
+  let chunkCount = 0;
 
-  for (let i = 0; i < 100; i ++) {
+  for (let i = 0; i < data.length; i ++) {
+    counter ++;
+    if (counter === 100) {
+      chunks.push([]);
+      counter = 0;
+      chunkCount ++;
+    }
     let user = [];
     user.push(i + 1);
     user.push(data[i].name);
@@ -79,7 +87,7 @@ const seedUsers = () => {
     user.push(data[i].weight);
     user.push(data[i].age);
     user.push(data[i].location);
-    chunks.push(user);
+    chunks[chunkCount].push(user);
   }
 
   controllers.truncateTable('users', (err) => {
@@ -87,18 +95,30 @@ const seedUsers = () => {
       console.log('cannot truncate');
     }
   });
-  controllers.insertData(chunks, 'users', (err) => {
-    if (err) {
-      console.log('seeding insert err', err);
-    }
+
+  chunks.forEach((chunk) => {
+    controllers.insertData(chunk, 'users', (err) => {
+      if (err) {
+        console.log('seeding insert err', err);
+      }
+    })
   })
 }
 
 const seedReviews = () => {
   let data = reviewObjs();
-  let chunks = [];
+  let chunks = [[]];
+  let counter = 0;
+  let chunkCount = 0;
 
-  for (let j = 0; j < 100; j ++) {
+  for (let j = 0; j < data.length; j ++) {
+    counter ++;
+    if (counter === 100) {
+      chunks.push([]);
+      counter = 0;
+      chunkCount ++;
+      console.log(chunkCount);
+    }
     let item = [];
     item.push(j + 1);
     item.push(data[j].shoeId);
@@ -111,7 +131,7 @@ const seedReviews = () => {
     item.push(data[j].width);
     item.push(data[j].helpful);
     item.push(data[j].recommended);
-    chunks.push(item);
+    chunks[chunkCount].push(item);
   }
 
   controllers.truncateTable('reviews', (err) => {
@@ -119,10 +139,13 @@ const seedReviews = () => {
       console.log('cannot truncate');
     }
   });
-  controllers.insertData(chunks, 'reviews', (err) => {
-    if (err) {
-      console.log('seeding insert err', err);
-    }
+
+  chunks.forEach((chunk) => {
+    controllers.insertData(chunk, 'reviews', (err) => {
+      if (err) {
+        console.log('seeding insert err', err);
+      }
+    })
   })
 }
 
