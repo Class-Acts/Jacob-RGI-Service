@@ -42,13 +42,29 @@ const insertData = (data, tablename, cb) => {
 const getReviewData = (shoeId, cb) => {
   connection.query('SELECT * FROM reviews WHERE shoe_id = ' + shoeId, (err, results) => {
     if (err) {
-      console.log('error querying the db', err);
+      console.log('error querying the reviews table', err);
     } else {
-      console.log('success querying db');
-      cb(null, results);
+      console.log('success querying the reviews table');
+      let responseData = [];
+      let counter = 0;
+      responseData.push([results]);
+      results.forEach((review) => {
+        connection.query('SELECT * FROM users WHERE id = ' + review.user_id, (err, data) => {
+          if (err) {
+            console.log(err);
+          } else {
+            responseData.push(data);
+            counter ++
+            if (counter === results.length) {
+              cb(null, responseData);
+            }
+          }
+        })
+      })
     }
   })
 }
+
 
 module.exports = {
   truncateTable,
