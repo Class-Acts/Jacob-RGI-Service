@@ -1,6 +1,6 @@
 # Project Name
 
-> Project description
+> RGI Reviews Module
 
 ## Related Projects
 
