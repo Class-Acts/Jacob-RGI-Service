@@ -1,7 +1,5 @@
 const faker = require('faker');
-//const db = require("./reviews-database.sql");
-const mysql = require('mysql');
-const Promise = require('bluebird');
+const controllers = require('./db-controllers.js');
 const database = 'reviews';
 
 const items = 100;
@@ -27,134 +25,109 @@ const genderSwitcher = (boolean) => {
 }
 
 const userObjs = () => {
- let dataHolder = [];
- for (let index = 0; index < items; index ++) {
-   let reviewers = randomNumber(0, 30);
-   for (let i = 0; i < reviewers; i++) {
-     let userObj = {};
-     userObj.name = faker.name.findName();
-     userObj.numberOfReviews = randomNumber(1, 6);
-     userObj.typicalSize = genderSwitcher(faker.random.boolean()) + ' ' + randomNumber(5, 14);
-     userObj.height = randomNumber(5, 7) + '\'' + randomNumber(0, 12) + '\"';
-     userObj.weight = weights[randomNumber(0, weights.length)];
-     userObj.age = ages[randomNumber(0, ages.length)];
-     userObj.location = faker.address.city() + ' ' + faker.address.state();
-     dataHolder.push(userObj);
+  let dataHolder = [];
+  for (let index = 0; index < items; index ++) {
+    let reviewers = randomNumber(0, 30);
+    for (let i = 0; i < reviewers; i++) {
+      let userObj = {};
+      userObj.name = faker.name.findName();
+      userObj.numberOfReviews = randomNumber(1, 6);
+      userObj.typicalSize = genderSwitcher(faker.random.boolean()) + ' ' + randomNumber(5, 14);
+      userObj.height = randomNumber(5, 7) + '\'' + randomNumber(0, 12) + '\"';
+      userObj.weight = weights[randomNumber(0, weights.length)];
+      userObj.age = ages[randomNumber(0, ages.length)];
+      userObj.location = faker.address.city() + ' ' + faker.address.state();
+      dataHolder.push(userObj);
    }
  }
- return dataHolder;
+  return dataHolder;
 }
 
 const reviewObjs = () => {
- let dataHolder = [];
- for (let index = 0; index < items; index ++) {
-   let reviews = randomNumber(0, 40);
-   for (let i = 0; i < reviews; i++) {
-     let userObj = {};
-     userObj.shoeId = randomNumber(0, 101);
-     userObj.userId = randomNumber(0, 1200);
-     userObj.date = faker.date.past();
-     userObj.title = faker.lorem.sentence();
-     userObj.body = faker.lorem.paragraph();
-     userObj.stars = randomNumber(0, 6);
-     userObj.fit = randomNumber(0, 2);
-     userObj.width = randomNumber(0, 2);
-     userObj.helpful = randomNumber(0, 101);
-     userObj.recommended = randomNumber(0, 2);
-     dataHolder.push(userObj);
-   }
- }
- return dataHolder;
+  let dataHolder = [];
+  for (let index = 0; index < items; index ++) {
+    let reviews = randomNumber(0, 40);
+    for (let i = 0; i < reviews; i++) {
+      let reviewObj = {};
+      reviewObj.shoeId = randomNumber(0, 101);
+      reviewObj.userId = randomNumber(0, 1200);
+      reviewObj.date = faker.date.past(5);
+      reviewObj.title = faker.lorem.sentence();
+      reviewObj.body = faker.lorem.paragraph();
+      reviewObj.stars = randomNumber(0, 6);
+      reviewObj.fit = randomNumber(0, 2);
+      reviewObj.width = randomNumber(0, 2);
+      reviewObj.helpful = randomNumber(0, 101);
+      reviewObj.recommended = randomNumber(0, 2);
+      dataHolder.push(reviewObj);
+    }
+  }
+  return dataHolder;
 }
 
-const moduleData = () => {
- let data = {};
- data.users = userObjs();
- data.reviews = reviewObjs();
- return data;
+const seedUsers = () => {
+  let data = userObjs();
+  let chunks = [];
+
+  for (let i = 0; i < 100; i ++) {
+    let user = [];
+    user.push(i + 1);
+    user.push(data[i].name);
+    user.push(data[i].numberOfReviews);
+    user.push(data[i].typicalSize);
+    user.push(data[i].height);
+    user.push(data[i].weight);
+    user.push(data[i].age);
+    user.push(data[i].location);
+    chunks.push(user);
+  }
+
+  controllers.truncateTable('users', (err) => {
+    if (err) {
+      console.log('cannot truncate');
+    }
+  });
+  controllers.insertData(chunks, 'users', (err) => {
+    if (err) {
+      console.log('seeding insert err', err);
+    }
+  })
 }
 
+const seedReviews = () => {
+  let data = reviewObjs();
+  let chunks = [];
 
-const connection = mysql.createConnection({
- host: 'localhost',
- user: 'root',
- password: 'password',
- database: 'reviews'
-});
+  for (let j = 0; j < 100; j ++) {
+    let item = [];
+    item.push(j + 1);
+    item.push(data[j].shoeId);
+    item.push(data[j].userId);
+    item.push(data[j].date);
+    item.push(data[j].title);
+    item.push(data[j].body);
+    item.push(data[j].stars);
+    item.push(data[j].fit);
+    item.push(data[j].width);
+    item.push(data[j].helpful);
+    item.push(data[j].recommended);
+    chunks.push(item);
+  }
 
-connection.connect((err) => {
- if (err) {
-   console.log(err);
- } else {
-   connection.query('TRUNCATE users', (err, result) => {
-     if (err) {
-       console.log(err);
-     } else {
-       console.log('truncated!');
-     }
-   });
-   connection.query('TRUNCATE reviews', (err, result) => {
-     if (err) {
-       console.log(err);
-     } else {
-       console.log('something else!');
-     }
-   });
-   console.log('connected');
-   let seedData = moduleData();
-   let query = "INSERT INTO users VALUES ?"
-   let userValues = [];
-   let index = 100;
-   for (let i = 0; i < index; i ++) {
-     let item = [];
-     item.push(i + 1);
-     item.push(seedData.users[i].name);
-     item.push(seedData.users[i].numberOfReviews);
-     item.push(seedData.users[i].typicalSize);
-     item.push(seedData.users[i].height);
-     item.push(seedData.users[i].weight);
-     item.push(seedData.users[i].age);
-     item.push(seedData.users[i].location);
-     userValues.push(item);
-   }
-   connection.query(query, [userValues], (err, result) => {
-     if (err) {
-       console.log(err);
-     } else {
-       console.log('inserted!');
-     }
-   })
-   let query2 = "INSERT INTO reviews VALUES ?"
-   let reviewValues = [];
-   for (let j = 0; j < index; j ++) {
-     let item = [];
-     item.push(j + 1);
-     item.push(seedData.reviews[j].shoeId);
-     item.push(seedData.reviews[j].userId);
-     item.push(seedData.reviews[j].date);
-     item.push(seedData.reviews[j].title);
-     item.push(seedData.reviews[j].body);
-     item.push(seedData.reviews[j].stars);
-     item.push(seedData.reviews[j].fit);
-     item.push(seedData.reviews[j].width);
-     item.push(seedData.reviews[j].helpful);
-     item.push(seedData.reviews[j].recommended);
-     reviewValues.push(item);
-   }
-   connection.query(query2, [reviewValues], (err, result) => {
-     if (err) {
-       console.log(err);
-     } else {
-       console.log('inserted!');
-     }
-   }
- )
- }
-})
+  controllers.truncateTable('reviews', (err) => {
+    if (err) {
+      console.log('cannot truncate');
+    }
+  });
+  controllers.insertData(chunks, 'reviews', (err) => {
+    if (err) {
+      console.log('seeding insert err', err);
+    }
+  })
+}
 
-
-module.exports = connection;
-
+seedUsers();
+seedReviews();
 //users categories - name, number of reviews, typical size, height, weight, age, location
 
 //reviews categories - shoe id, user id, date, title, body, stars, fit, width, helpful, recomended
