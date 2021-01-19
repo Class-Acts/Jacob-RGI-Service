@@ -55,8 +55,8 @@ const reviewObjs = () => {
       reviewObj.title = faker.lorem.sentence();
       reviewObj.body = faker.lorem.paragraph();
       reviewObj.stars = randomNumber(1, 6);
-      reviewObj.fit = randomNumber(0, 2);
-      reviewObj.width = randomNumber(0, 2);
+      reviewObj.fit = randomNumber(0, 3);
+      reviewObj.width = randomNumber(0, 3);
       reviewObj.helpful = randomNumber(0, 101);
       reviewObj.notHelpful = randomNumber(0, 101);
       reviewObj.recommended = randomNumber(0, 2);
