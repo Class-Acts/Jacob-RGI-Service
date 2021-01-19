@@ -14,19 +14,11 @@ class App extends React.Component {
       shoeId: 20,
       sortMethod: 'Most Recent'
     };
-    this.dateOrder = this.dateOrder.bind(this);
     this.componentMath = this.componentMath.bind(this);
     this.relevantSort = this.relevantSort.bind(this);
     this.helpfulSort = this.helpfulSort.bind(this);
     this.ratingSort = this.ratingSort.bind(this);
-  }
-
-  //uses moment to order review objects by date, most recent first
-  dateOrder(reviews) {
-    let result = reviews[0].sort((a, b) => {
-      return moment(b.review_date).diff(a.review_date);
-    })
-    return result;
+    this.dateSort = this.dateSort.bind(this);
   }
 
   //counts each star rating, calculcates averages, updates state
@@ -69,30 +61,40 @@ class App extends React.Component {
   //it's unclear to me what REI's relevance criteria is, so for now this is effectively a random sort.
   relevantSort(reviews) {
     let result = reviews[0].sort((a, b) => {
-      return a.user_id.diff(b.user_id);
+      return b.user_id - a.user_id;
     })
     return result;
   }
 
+  //sort based on helpful rating
   helpfulSort(reviews) {
     let result = reviews[0].sort((a, b) => {
-      return a.helpful.diff(b.helful);
+      return b.helpful - a.helpful;
     })
     return result;
   }
 
+  //sort based on star ratings - handles high to low and low to high
   ratingSort(reviews, method) {
     if (method === 'Highest to Lowest Rating') {
       let result = reviews[0].sort((a, b) => {
-        return a.stars.diff(b.stars);
+        return b.stars - a.stars;
       })
       return result;
     } else {
       let result = reviews[0].sort((a, b) => {
-        return b.stars.diff(a.stars);
+        return a.stars - b.stars;
       })
       return result;
     }
+  }
+
+  //sort based on review data, most recent first
+  dateSort(reviews) {
+    let result = reviews[0].sort((a, b) => {
+      return moment(b.review_date).diff(a.review_date);
+    })
+    return result;
   }
 
   //makes the ajax request that provides the data rendered
@@ -114,7 +116,7 @@ class App extends React.Component {
             reviewInfo.push(item[0]);
           }
         })
-        let datedReviewInfo = this.dateOrder(reviewInfo);
+        let datedReviewInfo = this.helpfulSort(reviewInfo);
         let colatedInfo = [];
         datedReviewInfo.forEach((item) => {
           let reviewComponent = [];
@@ -137,6 +139,7 @@ class App extends React.Component {
       })
   }
   render() {
+    console.log(this.state.shownInfo);
     if (this.state.update) {
       return (
         <div>
