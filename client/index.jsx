@@ -11,12 +11,17 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      shoeId: 20
+      shoeId: 20,
+      sortMethod: 'Most Recent'
     };
     this.dateOrder = this.dateOrder.bind(this);
     this.componentMath = this.componentMath.bind(this);
+    this.relevantSort = this.relevantSort.bind(this);
+    this.helpfulSort = this.helpfulSort.bind(this);
+    this.ratingSort = this.ratingSort.bind(this);
   }
 
+  //uses moment to order review objects by date, most recent first
   dateOrder(reviews) {
     let result = reviews[0].sort((a, b) => {
       return moment(b.review_date).diff(a.review_date);
@@ -24,6 +29,7 @@ class App extends React.Component {
     return result;
   }
 
+  //counts each star rating, calculcates averages, updates state
   componentMath() {
     let starHolder = {
       1: 0,
@@ -59,6 +65,42 @@ class App extends React.Component {
     this.setState({stars: starHolder, starAverage: starHolder.average, fit: fitHolder, update: true});
   }
 
+  //sort reviews by relevance
+  //it's unclear to me what REI's relevance criteria is, so for now this is effectively a random sort.
+  relevantSort(reviews) {
+    let result = reviews[0].sort((a, b) => {
+      return a.user_id.diff(b.user_id);
+    })
+    return result;
+  }
+
+  helpfulSort(reviews) {
+    let result = reviews[0].sort((a, b) => {
+      return a.helpful.diff(b.helful);
+    })
+    return result;
+  }
+
+  ratingSort(reviews, method) {
+    if (method === 'Highest to Lowest Rating') {
+      let result = reviews[0].sort((a, b) => {
+        return a.stars.diff(b.stars);
+      })
+      return result;
+    } else {
+      let result = reviews[0].sort((a, b) => {
+        return b.stars.diff(a.stars);
+      })
+      return result;
+    }
+  }
+
+  //makes the ajax request that provides the data rendered
+  //could be made dynamic by changing the shoeId
+  //colates the review response into paired review, user info for that review
+  //creates an array of 12 colated reviews to be displayed at first
+  //sets state and begins the render process
+  //calls componentMath() on every mount
   componentDidMount() {
     let shoeId = this.state.shoeId;
     $.ajax('/api/shoes/' + shoeId + '/reviews')
@@ -84,7 +126,10 @@ class App extends React.Component {
             }
           }
         })
-        this.setState({reviews: datedReviewInfo, users: userInfo, colatedInfo: colatedInfo});
+        let shownInfo = colatedInfo.slice(0, 12);
+        if (this.state.sortMethod === 'Most Recent') {
+          this.setState({reviews: datedReviewInfo, users: userInfo, colatedInfo: colatedInfo, shownInfo: shownInfo});
+        }
         this.componentMath();
       },
       (error) => {
@@ -99,8 +144,10 @@ class App extends React.Component {
           <div>
             <Snapshot stars={this.state.stars}/><Averages averages={this.state.fit}/>
           </div>
+          <div>1-{this.state.shownInfo.length + ' '} of {this.state.colatedInfo.length + ' '} Reviews</div>
+          <div>Sort by: {' ' + this.state.sortMethod}</div>
           <div>
-            {this.state.colatedInfo.map((component, index) => <Review key={index} review={component[0]} user={component[1]}/>)}
+            {this.state.shownInfo.map((component, index) => <Review key={index} review={component[0]} user={component[1]}/>)}
           </div>
         </div>
       )
