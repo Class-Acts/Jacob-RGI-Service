@@ -39,7 +39,7 @@ class Review extends React.Component {
           <div>Weight{' ' + this.props.user.weight}</div>
           <div>Age{' ' + this.props.user.age}</div>
           <div>{this.recommended()}</div>
-          <div>Helpful? <button>{'Yes - ' + this.props.review.recommended}</button><button>{'No - ' + this.props.review.not_recommended}</button><button>Report as inappropriate</button></div>
+          <div>Helpful? <button>{'Yes - ' + this.props.review.helpful}</button><button>{'No - ' + this.props.review.not_helpful}</button><button>Report as inappropriate</button></div>
         </div>
       </div>
     )
