@@ -14,16 +14,18 @@ class App extends React.Component {
       shoeId: 20
     };
     this.dateOrder = this.dateOrder.bind(this);
-    this.starCounter = this.starCounter.bind(this);
+    this.componentMath = this.componentMath.bind(this);
   }
+
   dateOrder(reviews) {
     let result = reviews[0].sort((a, b) => {
       return moment(b.review_date).diff(a.review_date);
     })
     return result;
   }
-  starCounter() {
-    let holder = {
+
+  componentMath() {
+    let starHolder = {
       1: 0,
       2: 0,
       3: 0,
@@ -32,14 +34,31 @@ class App extends React.Component {
       entries: 0,
       average: 0
     };
+    let fitHolder = {
+      fitTotal: 0,
+      fitAverage: 0,
+      widthTotal: 0,
+      widthAverage: 0,
+      starAverage: 0,
+      entries: 0
+    };
     this.state.reviews.forEach((review) => {
-      holder[review.stars] += 1;
-      holder.entries += 1;
+      starHolder[review.stars] += 1;
+      fitHolder.fitTotal += review.fit;
+      fitHolder.widthTotal += review.width;
+      starHolder.entries += 1;
+      fitHolder.entries += 1;
     });
-    let totalStars = holder[1] + (holder[2] * 2) + (holder[3] * 3) + (holder[4] * 4) + (holder[5] * 5);
-    holder.average = totalStars / holder.entries;
-    console.log(holder);
+    let totalStars = starHolder[1] + (starHolder[2] * 2) + (starHolder[3] * 3) + (starHolder[4] * 4) + (starHolder[5] * 5);
+    starHolder.average = totalStars / starHolder.entries;
+    let fitAverage = fitHolder.fitTotal / fitHolder.entries;
+    let widthAverage = fitHolder.widthTotal / fitHolder.entries;
+    fitHolder.fitAverage = fitAverage;
+    fitHolder.widthAverage = widthAverage;
+    fitHolder.starAverage = starHolder.average;
+    this.setState({stars: starHolder, starAverage: starHolder.average, fit: fitHolder, update: true});
   }
+
   componentDidMount() {
     let shoeId = this.state.shoeId;
     $.ajax('/api/shoes/' + shoeId + '/reviews')
@@ -55,22 +74,28 @@ class App extends React.Component {
         })
         let datedReviewInfo = this.dateOrder(reviewInfo);
         this.setState({reviews: datedReviewInfo, users: userInfo});
-        this.starCounter();
+        this.componentMath();
       },
       (error) => {
         console.log('error');
       })
   }
   render() {
-    return (
-      <div>
-        <div></div>
+    if (this.state.update) {
+      return (
         <div>
-          <Snapshot /><Averages />
+          <div>Reviews</div>
+          <div>
+            <Snapshot stars={this.state.stars}/><Averages averages={this.state.fit}/>
+          </div>
+          <Review reviews={this.state.reviews} users={this.state.users}/>
         </div>
-        <Review reviews={this.state.reviews} users={this.state.users}/>
-      </div>
-    )
+      )
+    } else {
+      return (
+        <div>loading...</div>
+      )
+    }
   }
  }
 

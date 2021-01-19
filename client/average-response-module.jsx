@@ -9,10 +9,13 @@ class Averages extends React.Component {
       width: 0
     };
   }
+
   render() {
     return (
       <div>
-        Hello World
+        <div>Average Rating: {this.props.averages.starAverage}</div>
+        <div>Average Fit: {this.props.averages.fitAverage}</div>
+        <div>Average Width: {this.props.averages.widthAverage}</div>
       </div>
     )
   }
