@@ -30,5 +30,6 @@ CREATE TABLE reviews (
   width tinyint not null,
   helpful tinyint not null,
   recommended tinyint(1) not null,
+  not_recommended tinyint(1) not null,
   primary key (id)
   );
