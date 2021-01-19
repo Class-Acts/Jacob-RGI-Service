@@ -73,7 +73,18 @@ class App extends React.Component {
           }
         })
         let datedReviewInfo = this.dateOrder(reviewInfo);
-        this.setState({reviews: datedReviewInfo, users: userInfo});
+        let colatedInfo = [];
+        datedReviewInfo.forEach((item) => {
+          let reviewComponent = [];
+          reviewComponent.push(item);
+          for (let index = 0; index < userInfo.length; index ++) {
+            if (item.user_id === userInfo[index].id) {
+              reviewComponent.push(userInfo[index]);
+              colatedInfo.push(reviewComponent);
+            }
+          }
+        })
+        this.setState({reviews: datedReviewInfo, users: userInfo, colatedInfo: colatedInfo});
         this.componentMath();
       },
       (error) => {
@@ -88,7 +99,9 @@ class App extends React.Component {
           <div>
             <Snapshot stars={this.state.stars}/><Averages averages={this.state.fit}/>
           </div>
-          <Review reviews={this.state.reviews} users={this.state.users}/>
+          <div>
+            {this.state.colatedInfo.map((component, index) => <Review key={index} review={component[0]} user={component[1]}/>)}
+          </div>
         </div>
       )
     } else {
