@@ -15,7 +15,6 @@ padding-top: 25px;
 padding-bottom: 25px;
 height: auto;
 `
-const
 class Review extends React.Component {
   constructor() {
     super();
