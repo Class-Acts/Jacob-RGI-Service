@@ -18,11 +18,11 @@ class Snapshot extends React.Component {
         <div>Rating Snapshot</div>
         <div>Select a row below to filter reviews.</div>
         <div>
-          <div>5 Stars: {this.props.stars[5]}</div>
-          <div>4 Stars: {this.props.stars[4]}</div>
-          <div>3 Stars: {this.props.stars[3]}</div>
-          <div>2 Stars: {this.props.stars[2]}</div>
-          <div>1 Stars: {this.props.stars[1]}</div>
+          <div onClick={() => this.props.onClick(5)}>5 Stars: {this.props.stars[5]}</div>
+          <div onClick={() => this.props.onClick(4)}>4 Stars: {this.props.stars[4]}</div>
+          <div onClick={() => this.props.onClick(3)}>3 Stars: {this.props.stars[3]}</div>
+          <div onClick={() => this.props.onClick(2)}>2 Stars: {this.props.stars[2]}</div>
+          <div onClick={() => this.props.onClick(1)}>1 Stars: {this.props.stars[1]}</div>
         </div>
       </div>
     )

@@ -12,7 +12,8 @@ class App extends React.Component {
     super();
     this.state = {
       shoeId: 20,
-      sortMethod: 'Most Recent'
+      sortMethod: 'Most Recent',
+      starSelection: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
     };
     this.componentMath = this.componentMath.bind(this);
     this.relevantSort = this.relevantSort.bind(this);
@@ -118,25 +119,24 @@ class App extends React.Component {
     if (criteria === 'Most Recent') {
       ordered = this.dateSort([this.state.reviews]);
     }
-    console.log(ordered);
     let colated = this.colateInfo(ordered);
-    this.setState({colatedInfo: colated.colatedInfo, shownInfo: colated.shownInfo, sortMethod: criteria});
+    this.setState({colatedInfo: colated.colatedInfo, shownInfo: colated.shownInfo, sortMethod: criteria, savedColatedInfo: colated.colatedInfo, savedShownInfo: colated.shownInfo});
   }
 
   //organizes all recieved reviews and user records into pairs based on id to make rendering easier
   //shownInfo cuts the reviews down to 12 for the default display
   colateInfo(reviews) {
     let colatedInfo = [];
+    let userInfo = this.state.users;
     reviews.forEach((item) => {
       let reviewComponent = [];
       reviewComponent.push(item);
-      let userInfo = this.state.users;
       for (let index = 0; index < userInfo.length; index ++) {
         if (item.user_id === userInfo[index].id) {
           reviewComponent.push(userInfo[index]);
-          colatedInfo.push(reviewComponent);
         }
       }
+      colatedInfo.push(reviewComponent);
     })
     let shownInfo = colatedInfo.slice(0, 12);
     let result = {colatedInfo: colatedInfo, shownInfo: shownInfo};
@@ -144,14 +144,34 @@ class App extends React.Component {
   }
 
   //allows filtering based on the clicked star rating
+  //will need to add pop up buttons, ability to unfilter when clicked
   starSelector(rating) {
-    let starSpecific = [];
-    this.state.colatedInfo.forEach((item) => {
-      if (item[0].stars === rating) {
-        starSpecific.push(item);
-      }
-    })
-    this.setState({colatedInfo: starSpecific, shownInfo: starSpecific});
+    let starDisplayedValues = Object.values(this.state.starSelection);
+    if (starDisplayedValues.indexOf(1) === -1) {
+      console.log('hit');
+      let starSpecific = [];
+      let starsShown = this.state.starSelection;
+      starsShown[rating] = 1;
+      this.state.colatedInfo.forEach((item) => {
+        if (item[0].stars === rating) {
+          starSpecific.push(item);
+        }
+      })
+      this.setState({colatedInfo: starSpecific, shownInfo: starSpecific, starSelection: starsShown});
+    }
+    if (starDisplayedValues.indexOf(1) !== -1 && this.state.starSelection[rating] === 0) {
+      console.log('under hit');
+      let previousItems = this.state.colatedInfo;
+      let previousShown = this.state.shownInfo;
+      let starsShown = this.state.starSelection;
+      starsShown[rating] = 1;
+      this.state.savedColatedInfo.forEach((item) => {
+        if (item[0].stars === rating) {
+          previousShown.push(item);
+        }
+      })
+      this.setState({colatedInfo: previousItems, shownInfo: previousShown, starSelection: starsShown});
+    }
   }
 
   //makes the ajax request that provides the data rendered
@@ -174,7 +194,8 @@ class App extends React.Component {
         let datedReviewInfo = this.dateSort(reviewInfo);
         this.setState({reviews: datedReviewInfo, users: userInfo});
         let displayInfo = this.colateInfo(datedReviewInfo);
-        this.setState({colatedInfo: displayInfo.colatedInfo, shownInfo: displayInfo.shownInfo})
+        console.log(displayInfo);
+        this.setState({colatedInfo: displayInfo.colatedInfo, shownInfo: displayInfo.shownInfo, savedColatedInfo: displayInfo.colatedInfo, savedShownInfo: displayInfo.shownInfo});
         this.componentMath();
       },
       (error) => {
