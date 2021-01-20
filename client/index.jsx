@@ -19,6 +19,8 @@ class App extends React.Component {
     this.helpfulSort = this.helpfulSort.bind(this);
     this.ratingSort = this.ratingSort.bind(this);
     this.dateSort = this.dateSort.bind(this);
+    this.reorderClickHandler = this.reorderClickHandler.bind(this);
+    this.colateInfo = this.colateInfo.bind(this);
   }
 
   //counts each star rating, calculcates averages, updates state
@@ -75,8 +77,8 @@ class App extends React.Component {
   }
 
   //sort based on star ratings - handles high to low and low to high
-  ratingSort(reviews, method) {
-    if (method === 'Highest to Lowest Rating') {
+  ratingSort(reviews, critera) {
+    if (critera === 'Highest to Lowest Rating') {
       let result = reviews[0].sort((a, b) => {
         return b.stars - a.stars;
       })
@@ -94,6 +96,46 @@ class App extends React.Component {
     let result = reviews[0].sort((a, b) => {
       return moment(b.review_date).diff(a.review_date);
     })
+    return result;
+  }
+
+  reorderClickHandler(criteria) {
+    let ordered = [];
+    if (criteria === 'Most Relevant') {
+      ordered = this.relevantSort([this.state.reviews]);
+    }
+    if (criteria === 'Most Helpful') {
+      ordered = this.helpfulSort([this.state.reviews]);
+    }
+    if (criteria === 'Highest to Lowest Rating') {
+      ordered = this.ratingSort([this.state.reviews], criteria);
+    }
+    if (criteria === 'Lowest to Highest Rating') {
+      ordered = this.ratingSort([this.state.reviews], criteria);
+    }
+    if (criteria === 'Most Recent') {
+      ordered = this.dateSort([this.state.reviews]);
+    }
+    console.log(ordered);
+    let colated = this.colateInfo(ordered);
+    this.setState({colatedInfo: colated.colatedInfo, shownInfo: colated.shownInfo, sortMethod: criteria});
+  }
+
+  colateInfo(reviews) {
+    let colatedInfo = [];
+    reviews.forEach((item) => {
+      let reviewComponent = [];
+      reviewComponent.push(item);
+      let userInfo = this.state.users;
+      for (let index = 0; index < userInfo.length; index ++) {
+        if (item.user_id === userInfo[index].id) {
+          reviewComponent.push(userInfo[index]);
+          colatedInfo.push(reviewComponent);
+        }
+      }
+    })
+    let shownInfo = colatedInfo.slice(0, 12);
+    let result = {colatedInfo: colatedInfo, shownInfo: shownInfo};
     return result;
   }
 
@@ -116,22 +158,10 @@ class App extends React.Component {
             reviewInfo.push(item[0]);
           }
         })
-        let datedReviewInfo = this.helpfulSort(reviewInfo);
-        let colatedInfo = [];
-        datedReviewInfo.forEach((item) => {
-          let reviewComponent = [];
-          reviewComponent.push(item);
-          for (let index = 0; index < userInfo.length; index ++) {
-            if (item.user_id === userInfo[index].id) {
-              reviewComponent.push(userInfo[index]);
-              colatedInfo.push(reviewComponent);
-            }
-          }
-        })
-        let shownInfo = colatedInfo.slice(0, 12);
-        if (this.state.sortMethod === 'Most Recent') {
-          this.setState({reviews: datedReviewInfo, users: userInfo, colatedInfo: colatedInfo, shownInfo: shownInfo});
-        }
+        let datedReviewInfo = this.dateSort(reviewInfo);
+        this.setState({reviews: datedReviewInfo, users: userInfo});
+        let displayInfo = this.colateInfo(datedReviewInfo);
+        this.setState({colatedInfo: displayInfo.colatedInfo, shownInfo: displayInfo.shownInfo})
         this.componentMath();
       },
       (error) => {
@@ -139,7 +169,6 @@ class App extends React.Component {
       })
   }
   render() {
-    console.log(this.state.shownInfo);
     if (this.state.update) {
       return (
         <div>
@@ -148,7 +177,15 @@ class App extends React.Component {
             <Snapshot stars={this.state.stars}/><Averages averages={this.state.fit}/>
           </div>
           <div>1-{this.state.shownInfo.length + ' '} of {this.state.colatedInfo.length + ' '} Reviews</div>
-          <div>Sort by: {' ' + this.state.sortMethod}</div>
+          <div>
+            <button>Sort by: {' ' + this.state.sortMethod}</button>
+            <div></div>
+            <a onClick={() => this.reorderClickHandler('Most Relevant')}>Most Relevant</a>
+            <a onClick={() => this.reorderClickHandler('Most Helpful')}>Most Helpful</a>
+            <a onClick={() => this.reorderClickHandler('Highest to Lowest Rating')}>Highest to Lowest Rating</a>
+            <a onClick={() => this.reorderClickHandler('Lowest to Highest Rating')}>Lowest to Highest Rating</a>
+            <a onClick={() => this.reorderClickHandler('Most Recent')}>Most Recent</a>
+          </div>
           <div>
             {this.state.shownInfo.map((component, index) => <Review key={index} review={component[0]} user={component[1]}/>)}
           </div>
