@@ -23,6 +23,7 @@ class App extends React.Component {
     this.reorderClickHandler = this.reorderClickHandler.bind(this);
     this.colateInfo = this.colateInfo.bind(this);
     this.starSelector = this.starSelector.bind(this);
+    this.showMore = this.showMore.bind(this);
   }
 
   //counts each star rating, calculcates averages, updates state
@@ -148,7 +149,6 @@ class App extends React.Component {
   starSelector(rating) {
     let starDisplayedValues = Object.values(this.state.starSelection);
     if (starDisplayedValues.indexOf(1) === -1) {
-      console.log('hit');
       let starSpecific = [];
       let starsShown = this.state.starSelection;
       starsShown[rating] = 1;
@@ -160,7 +160,6 @@ class App extends React.Component {
       this.setState({colatedInfo: starSpecific, shownInfo: starSpecific, starSelection: starsShown});
     }
     if (starDisplayedValues.indexOf(1) !== -1 && this.state.starSelection[rating] === 0) {
-      console.log('under hit');
       let previousItems = this.state.colatedInfo;
       let previousShown = this.state.shownInfo;
       let starsShown = this.state.starSelection;
@@ -172,6 +171,16 @@ class App extends React.Component {
       })
       this.setState({colatedInfo: previousItems, shownInfo: previousShown, starSelection: starsShown});
     }
+  }
+
+  showMore() {
+    let moreInfo = [];
+    for (let index = 0; index < this.state.shownInfo.length + 30; index ++) {
+      if (this.state.colatedInfo[index]) {
+        moreInfo.push(this.state.colatedInfo[index]);
+      }
+    }
+    this.setState({shownInfo: moreInfo});
   }
 
   //makes the ajax request that provides the data rendered
@@ -194,7 +203,6 @@ class App extends React.Component {
         let datedReviewInfo = this.dateSort(reviewInfo);
         this.setState({reviews: datedReviewInfo, users: userInfo});
         let displayInfo = this.colateInfo(datedReviewInfo);
-        console.log(displayInfo);
         this.setState({colatedInfo: displayInfo.colatedInfo, shownInfo: displayInfo.shownInfo, savedColatedInfo: displayInfo.colatedInfo, savedShownInfo: displayInfo.shownInfo});
         this.componentMath();
       },
@@ -222,6 +230,9 @@ class App extends React.Component {
           </div>
           <div>
             {this.state.shownInfo.map((component, index) => <Review key={index} review={component[0]} user={component[1]}/>)}
+          </div>
+          <div>
+            <button onClick={() => this.showMore()}>Load More</button>
           </div>
         </div>
       )
