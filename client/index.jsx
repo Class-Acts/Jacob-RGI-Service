@@ -59,23 +59,6 @@ position: absolute;
 right: 16px;
 `;
 
-const ContentTitle = styled.h3`
-color: rgb(41, 41, 41);
-font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
-font-size: 16px;
-font-wight: 400;
-height: 24px;
-left: auto;
-right: auto;
-opacity: 1;
-padding-left: 8px;
-padding-right: 16px;
-position: static;
-text-align: left;
-width: 436px;
-`
-
-
 class App extends React.Component {
   constructor() {
     super();
