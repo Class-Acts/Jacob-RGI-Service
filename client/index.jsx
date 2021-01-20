@@ -21,6 +21,7 @@ class App extends React.Component {
     this.dateSort = this.dateSort.bind(this);
     this.reorderClickHandler = this.reorderClickHandler.bind(this);
     this.colateInfo = this.colateInfo.bind(this);
+    this.starSelector = this.starSelector.bind(this);
   }
 
   //counts each star rating, calculcates averages, updates state
@@ -99,6 +100,7 @@ class App extends React.Component {
     return result;
   }
 
+  //handles review reorder based on click
   reorderClickHandler(criteria) {
     let ordered = [];
     if (criteria === 'Most Relevant') {
@@ -121,6 +123,8 @@ class App extends React.Component {
     this.setState({colatedInfo: colated.colatedInfo, shownInfo: colated.shownInfo, sortMethod: criteria});
   }
 
+  //organizes all recieved reviews and user records into pairs based on id to make rendering easier
+  //shownInfo cuts the reviews down to 12 for the default display
   colateInfo(reviews) {
     let colatedInfo = [];
     reviews.forEach((item) => {
@@ -139,10 +143,19 @@ class App extends React.Component {
     return result;
   }
 
+  //allows filtering based on the clicked star rating
+  starSelector(rating) {
+    let starSpecific = [];
+    this.state.colatedInfo.forEach((item) => {
+      if (item[0].stars === rating) {
+        starSpecific.push(item);
+      }
+    })
+    this.setState({colatedInfo: starSpecific, shownInfo: starSpecific});
+  }
+
   //makes the ajax request that provides the data rendered
   //could be made dynamic by changing the shoeId
-  //colates the review response into paired review, user info for that review
-  //creates an array of 12 colated reviews to be displayed at first
   //sets state and begins the render process
   //calls componentMath() on every mount
   componentDidMount() {
@@ -174,7 +187,7 @@ class App extends React.Component {
         <div>
           <div>Reviews</div>
           <div>
-            <Snapshot stars={this.state.stars}/><Averages averages={this.state.fit}/>
+            <Snapshot onClick={this.starSelector} stars={this.state.stars}/><Averages averages={this.state.fit}/>
           </div>
           <div>1-{this.state.shownInfo.length + ' '} of {this.state.colatedInfo.length + ' '} Reviews</div>
           <div>
