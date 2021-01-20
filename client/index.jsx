@@ -4,8 +4,77 @@ import Averages from './average-response-module.jsx';
 import Snapshot from './snapshot.jsx';
 import Review from './review.jsx';
 import $ from 'jquery';
+import styled from 'styled-components';
 import moment from 'moment';
 moment().format();
+
+const Title = styled.h2`
+border-bottom-color: rgba(12, 11, 8, 0.75);
+box-sizing: border-box;
+color: rgba(12, 11, 8, 0.75);
+display: block;
+font-family: Stuart, Georgia, serif;
+font-size: 21.33px;
+font-stretch: 100%;
+font-weight: 600;
+letter-spacing: -0.16px;
+line-height: 28.4329px;
+padding-bottom: 10px;
+padding-left: 5px;
+padding-right: 5px;
+padding-top: 10px;
+text-align: left;
+margin: -1px 0 0;
+padding: 1rem .5rem;
+border-top-width: 1px;
+border-top-style: solid;
+border-top-color: rgb(204, 204, 204);
+cursor: pointer;
+`;
+
+const WriteaReviewButton = styled.button`
+align-items: flex-start;
+background-color: rgb(34, 92, 78);
+border-radius: 2px;
+box-shadow: inset 0 1px 0 rgba(255,255,255, 0.2);
+box-sizing: border-box;
+color: white;
+display: block;
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 16px;
+font-weight: 700;
+height: 44px;
+line-height: 28px;
+opacity: 1;
+width: auto;
+white-space: nowrap;
+line-height: 28px;
+padding-top: 8px;
+padding-right: 16px;
+padding-bottom: 8px;
+padding-left: 16px;
+border-radius: 2px 2px 2px 2px;
+border-color: transparent;
+position: absolute;
+right: 16px;
+`;
+
+const ContentTitle = styled.h3`
+color: rgb(41, 41, 41);
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 16px;
+font-wight: 400;
+height: 24px;
+left: auto;
+right: auto;
+opacity: 1;
+padding-left: 8px;
+padding-right: 16px;
+position: static;
+text-align: left;
+width: 436px;
+`
+
 
 class App extends React.Component {
   constructor() {
@@ -210,12 +279,15 @@ class App extends React.Component {
         console.log('error');
       })
   }
+
   render() {
     if (this.state.update) {
       return (
         <div>
-          <div>Reviews</div>
+          <Title>Reviews</Title>
           <div>
+          <div>
+            <div><WriteaReviewButton>Write a Review</WriteaReviewButton></div>
             <Snapshot onClick={this.starSelector} stars={this.state.stars}/><Averages averages={this.state.fit}/>
           </div>
           <div>1-{this.state.shownInfo.length + ' '} of {this.state.colatedInfo.length + ' '} Reviews</div>
@@ -233,6 +305,7 @@ class App extends React.Component {
           </div>
           <div>
             <button onClick={() => this.showMore()}>Load More</button>
+          </div>
           </div>
         </div>
       )
