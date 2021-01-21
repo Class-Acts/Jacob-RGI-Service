@@ -38,9 +38,9 @@ class Averages extends React.Component {
     return (
       <ContentContainer>
         <ContentTitle>Average Customer Ratings</ContentTitle>
-        <div>Average Rating: {this.props.averages.starAverage}</div>
-        <div>Average Fit: {this.props.averages.fitAverage}</div>
-        <div>Average Width: {this.props.averages.widthAverage}</div>
+        <ContentTitle>Overall: {Math.round(this.props.averages.starAverage * 10) / 10}</ContentTitle>
+        <ContentTitle>Overall Fit Rating: {this.props.averages.fitAverage}</ContentTitle>
+        <ContentTitle>Width: {this.props.averages.widthAverage}</ContentTitle>
       </ContentContainer>
     )
   }

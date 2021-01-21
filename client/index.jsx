@@ -59,6 +59,54 @@ position: absolute;
 right: 16px;
 `;
 
+const BaseSpanStyle = styled.span`
+font-weight: 400;
+font-size: 16px;
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+`;
+
+const DropdownDivHolder = styled.div`
+position: relative;
+display: inline-block;
+&:hover {
+  display: block;
+  >div {
+      display: block;
+  }
+}
+`;
+
+const DropdownButton = styled.button`
+background-color: white;
+color: rgb(41, 41, 41);
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 16px;
+border: none;
+`;
+
+const DropdownContent = styled.div`
+position: absolute;
+display: none;
+background-color: white;
+min-width: auto;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 1;
+border-color: rgb(41, 41, 41);
+border-style: solid;
+border-width: 1px;
+border-radius: 4px;
+`;
+const DropdownItem = styled.a`
+color: rgb(41, 41, 41);
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+cursor: pointer;
+&:hover {
+  background-color: #C7DFD1;
+}
+`;
+
 class App extends React.Component {
   constructor() {
     super();
@@ -273,16 +321,19 @@ class App extends React.Component {
             <div><WriteaReviewButton>Write a Review</WriteaReviewButton></div>
             <Snapshot onClick={this.starSelector} stars={this.state.stars}/><Averages averages={this.state.fit}/>
           </div>
-          <div>1-{this.state.shownInfo.length + ' '} of {this.state.colatedInfo.length + ' '} Reviews</div>
           <div>
-            <button>Sort by: {' ' + this.state.sortMethod}</button>
-            <div></div>
-            <a onClick={() => this.reorderClickHandler('Most Relevant')}>Most Relevant</a>
-            <a onClick={() => this.reorderClickHandler('Most Helpful')}>Most Helpful</a>
-            <a onClick={() => this.reorderClickHandler('Highest to Lowest Rating')}>Highest to Lowest Rating</a>
-            <a onClick={() => this.reorderClickHandler('Lowest to Highest Rating')}>Lowest to Highest Rating</a>
-            <a onClick={() => this.reorderClickHandler('Most Recent')}>Most Recent</a>
+            <BaseSpanStyle>1-{this.state.shownInfo.length + ' '} of {this.state.colatedInfo.length + ' '} Reviews</BaseSpanStyle>
           </div>
+          <DropdownDivHolder>
+            <DropdownButton>Sort by: {' ' + this.state.sortMethod}</DropdownButton>
+            <DropdownContent>
+              <DropdownItem onClick={() => this.reorderClickHandler('Most Relevant')}>Most Relevant</DropdownItem>
+              <DropdownItem onClick={() => this.reorderClickHandler('Most Helpful')}>Most Helpful</DropdownItem>
+              <DropdownItem onClick={() => this.reorderClickHandler('Highest to Lowest Rating')}>Highest to Lowest Rating</DropdownItem>
+              <DropdownItem onClick={() => this.reorderClickHandler('Lowest to Highest Rating')}>Lowest to Highest Rating</DropdownItem>
+              <DropdownItem onClick={() => this.reorderClickHandler('Most Recent')}>Most Recent</DropdownItem>
+            </DropdownContent>
+          </DropdownDivHolder>
           <div>
             {this.state.shownInfo.map((component, index) => <Review key={index} review={component[0]} user={component[1]}/>)}
           </div>

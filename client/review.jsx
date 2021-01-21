@@ -15,6 +15,34 @@ padding-top: 25px;
 padding-bottom: 25px;
 height: auto;
 `
+const ReviewTitle = styled.h3`
+margin-bottom: .25em;
+color: #292929;
+font-size: 19px;
+line-height: 20px;
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-weight: 700;
+display: block;
+`
+const ReviewBody = styled.p`
+margin-bottom: 1em;
+display: block;
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 16px;
+font-weight: 400;
+height: auto;
+`
+
+const HelpfulDiv = styled.div`
+margin: auto;
+display: block;
+margin-block-start: 1em;
+margin-block-end: 1em;
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 16px;
+color: rgb(41, 41, 41);
+`
+
 class Review extends React.Component {
   constructor() {
     super();
@@ -46,12 +74,15 @@ class Review extends React.Component {
         </div>
         <div>
           <div> Stars: {this.props.review.stars} - {moment(this.props.review.review_date).fromNow()}</div>
-          <div>{this.props.review.title}</div>
-          <div>{this.props.review.body}</div>
+          <ReviewTitle>{this.props.review.title}</ReviewTitle>
+          <ReviewBody>{this.props.review.body}</ReviewBody>
           <div>Height{' ' + this.props.user.height}</div>
           <div>Weight{' ' + this.props.user.weight}</div>
           <div>Age{' ' + this.props.user.age}</div>
           <div>{this.recommended()}</div>
+          <div>
+            <HelpfulDiv>Helpful?</HelpfulDiv>
+          </div>
           <div>Helpful? <button>{'Yes - ' + this.props.review.helpful}</button><button>{'No - ' + this.props.review.not_helpful}</button><button>Report as inappropriate</button></div>
         </div>
       </ReviewListHolder>

@@ -46,7 +46,12 @@ const ContentContainer = styled.div`
 width: 50%;
 float: left;
 `
-
+const TotalNumber = styled.span`
+color: rgb(41, 41, 41);
+font-size: 16px;
+font-weight: 400;
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+`
 
 class Snapshot extends React.Component {
   constructor() {
@@ -66,11 +71,15 @@ class Snapshot extends React.Component {
         <ContentTitle>Rating Snapshot</ContentTitle>
         <SelectaRow>Select a row below to filter reviews.</SelectaRow>
         <div>
-          <div onClick={() => this.props.onClick(5)}>5 Stars: {this.props.stars[5]}</div>
-          <div onClick={() => this.props.onClick(4)}>4 Stars: {this.props.stars[4]}</div>
-          <div onClick={() => this.props.onClick(3)}>3 Stars: {this.props.stars[3]}</div>
-          <div onClick={() => this.props.onClick(2)}>2 Stars: {this.props.stars[2]}</div>
-          <div onClick={() => this.props.onClick(1)}>1 Stars: {this.props.stars[1]}</div>
+          <TotalNumber onClick={() => this.props.onClick(5)}>5 Stars: {this.props.stars[5]}</TotalNumber>
+          <div></div>
+          <TotalNumber onClick={() => this.props.onClick(4)}>4 Stars: {this.props.stars[4]}</TotalNumber>
+          <div></div>
+          <TotalNumber onClick={() => this.props.onClick(3)}>3 Stars: {this.props.stars[3]}</TotalNumber>
+          <div></div>
+          <TotalNumber onClick={() => this.props.onClick(2)}>2 Stars: {this.props.stars[2]}</TotalNumber>
+          <div></div>
+          <TotalNumber onClick={() => this.props.onClick(1)}>1 Stars: {this.props.stars[1]}</TotalNumber>
         </div>
       </ContentContainer>
     )
