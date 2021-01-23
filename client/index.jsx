@@ -116,10 +116,21 @@ cursor: pointer;
 `;
 const LoadMoreButton = styled.button`
 display: table-cell;
-text-align:center;
+text-align: center;
 veritcal-align: bottom;
+background-color: rgb(237, 237, 237);
+border-color: rgb(184, 184, 184);
+border-radius: 2px;
+border-style: solid;
+border-width: 1px;
+font-family: Arial, Helvetica, "Bitstream Vera", sans-serif;
+font-size: 14px;
+line-height: 20px;
+height: 32px;
+width: 300px;
 `;
 const LoadMoreButtonParent = styled.div`
+margin: auto;
 display: table;
 text-align: center;
 vertical-align: bottom;

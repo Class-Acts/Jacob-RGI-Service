@@ -52,6 +52,10 @@ color: rgb(41, 41, 41);
 font-size: 16px;
 font-weight: 400;
 font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+line-height: 19.5px;
+padding-left: 5px;
+padding-right: 5px;
+parring-bottom: 3px;
 `
 
 class Snapshot extends React.Component {
