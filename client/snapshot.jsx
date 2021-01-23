@@ -72,24 +72,15 @@ class Snapshot extends React.Component {
         <ContentTitle>Rating Snapshot</ContentTitle>
         <SelectaRow>Select a row below to filter reviews.</SelectaRow>
         <div>
-          <span>5 &#9733; </span><BarGraphRow stars={this.props.stars[5]} entries={this.props.stars.entries} onClick={() => this.props.onClick(5)}/><span>{' ' + this.props.stars[5]}</span>
+          <TotalNumber>5 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[5]} entries={this.props.stars.entries} onClick={() => this.props.onClick(5)}/><TotalNumber>{' ' + this.props.stars[5]}</TotalNumber>
           <div></div>
-          <span>4 &#9733; </span><BarGraphRow stars={this.props.stars[4]} entries={this.props.stars.entries} onClick={() => this.props.onClick(4)}/><span>{' ' + this.props.stars[4]}</span>
+          <TotalNumber>4 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[4]} entries={this.props.stars.entries} onClick={() => this.props.onClick(4)}/><TotalNumber>{' ' + this.props.stars[4]}</TotalNumber>
           <div></div>
-          <span>3 &#9733; </span><BarGraphRow stars={this.props.stars[3]} entries={this.props.stars.entries} onClick={() => this.props.onClick(3)}/><span>{' ' + this.props.stars[3]}</span>
+          <TotalNumber>3 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[3]} entries={this.props.stars.entries} onClick={() => this.props.onClick(3)}/><TotalNumber>{' ' + this.props.stars[3]}</TotalNumber>
           <div></div>
-          <span>2 &#9733; </span><BarGraphRow stars={this.props.stars[2]} entries={this.props.stars.entries} onClick={() => this.props.onClick(2)}/><span>{' ' + this.props.stars[2]}</span>
+          <TotalNumber>2 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[2]} entries={this.props.stars.entries} onClick={() => this.props.onClick(2)}/><TotalNumber>{' ' + this.props.stars[2]}</TotalNumber>
           <div></div>
-          <span>1 &#9733; </span><BarGraphRow stars={this.props.stars[1]} entries={this.props.stars.entries} onClick={() => this.props.onClick(1)}/><span>{' ' + this.props.stars[1]}</span>
-          <TotalNumber onClick={() => this.props.onClick(5)}>5 Stars: {this.props.stars[5]}</TotalNumber>
-          <div></div>
-          <TotalNumber onClick={() => this.props.onClick(4)}>4 Stars: {this.props.stars[4]}</TotalNumber>
-          <div></div>
-          <TotalNumber onClick={() => this.props.onClick(3)}>3 Stars: {this.props.stars[3]}</TotalNumber>
-          <div></div>
-          <TotalNumber onClick={() => this.props.onClick(2)}>2 Stars: {this.props.stars[2]}</TotalNumber>
-          <div></div>
-          <TotalNumber onClick={() => this.props.onClick(1)}>1 Stars: {this.props.stars[1]}</TotalNumber>
+          <TotalNumber>1 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[1]} entries={this.props.stars.entries} onClick={() => this.props.onClick(1)}/><TotalNumber>{' ' + this.props.stars[1]}</TotalNumber>
         </div>
       </ContentContainer>
     )

@@ -60,7 +60,6 @@ class Stars extends React.Component {
     }
 
     helper(bigRating);
-    console.log(stars);
     return stars;
   }
 
