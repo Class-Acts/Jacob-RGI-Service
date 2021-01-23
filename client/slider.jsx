@@ -7,7 +7,7 @@ width: 100%;
 
 const SliderInput = styled.input`
 appearance: none;
-width: 142px;
+width: 100%;
 height: 8px;
 background: white;
 border-color: rgba(51, 51, 51, 0.5);
@@ -23,8 +23,8 @@ outline-none;
   border-style: solid;
   background: #225C4E;
   box-shadow:
-  inset -1px 0px  0px 0px rgba(0, 0, 0, 0.25),
-  inset 1px 0px 0px 0px rgba(255, 255, 255, 0.5);
+  inset -1px -2px 4px 0px rgba(0, 0, 0, 0.69),
+  inset 1px 2px 4px 0px rgba(255, 255, 255, 0.5);
 }
 `;
 

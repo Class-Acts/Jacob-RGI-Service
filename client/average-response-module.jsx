@@ -18,12 +18,12 @@ padding-right: 16px;
 position: static;
 text-align: left;
 width: 436px;
-`
+`;
 
 const ContentContainer = styled.div`
 width: 50%;
 float: left;
-`
+`;
 
 
 class Averages extends React.Component {
@@ -41,8 +41,8 @@ class Averages extends React.Component {
       <ContentContainer>
         <ContentTitle>Average Customer Ratings</ContentTitle>
         <ContentTitle>Overall <Stars partial={true} stars={Math.round(this.props.averages.starAverage * 10) / 10}></Stars>{' ' + Math.round(this.props.averages.starAverage * 10) / 10}</ContentTitle>
-        <ContentTitle>Overall Fit Rating: {this.props.averages.fitAverage}</ContentTitle>
-        <ContentTitle>Width: {this.props.averages.widthAverage}</ContentTitle>
+        <ContentTitle>Overall Fit Rating <Slider value={this.props.averages.fitAverage} /></ContentTitle>
+        <ContentTitle>Width <Slider value={this.props.averages.widthAverage} /></ContentTitle>
       </ContentContainer>
     )
   }

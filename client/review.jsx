@@ -139,7 +139,6 @@ color: rgb(41, 41, 41);
 line-height: 26px;
 text-align: right;
 float: right;
-padding-right: 2.75em;
 `;
 
 
