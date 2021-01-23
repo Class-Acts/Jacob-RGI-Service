@@ -1,5 +1,6 @@
 import React from 'react';
 import Stars from './stars.jsx';
+import Slider from './slider.jsx';
 import styled from 'styled-components';
 import moment from 'moment';
 moment().format();
@@ -124,6 +125,22 @@ color: rgb(41, 41, 41);
 font-size: 10px;
 opacity: 0.5;
 `;
+const FitSpanLeft = styled.span`
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 12px;
+color: rgb(41, 41, 41);
+line-height: 26px;
+text-align: left;
+`;
+const FitSpanRight = styled.span`
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 12px;
+color: rgb(41, 41, 41);
+line-height: 26px;
+text-align: right;
+float: right;
+padding-right: 2.75em;
+`;
 
 
 class Review extends React.Component {
@@ -173,12 +190,12 @@ class Review extends React.Component {
             <ReviewTitle>{this.props.review.title}</ReviewTitle>
           </div>
           <FitandWidthModule>
-            <div>Overall Fit Rating</div>
-            <div>{this.props.review.fit}</div>
-            <div>Runs Small     -     Runs Large</div>
-            <div>Width</div>
-            <div>{this.props.review.width}</div>
-            <div>Runs Narrow     -      Runs Wide</div>
+            <UserBioDefaultText>Overall Fit Rating</UserBioDefaultText>
+            <Slider value={this.props.review.fit}/>
+            <div><FitSpanLeft>Runs Small</FitSpanLeft><FitSpanRight>Runs Large</FitSpanRight></div>
+            <UserBioDefaultText>Width</UserBioDefaultText>
+            <Slider value={this.props.review.width}/>
+            <div><FitSpanLeft>Runs Narrow</FitSpanLeft><FitSpanRight>Runs Wide</FitSpanRight></div>
           </FitandWidthModule>
           <div>
             <ReviewBody>{this.props.review.body}</ReviewBody>
