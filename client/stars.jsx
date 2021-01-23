@@ -19,8 +19,8 @@ overflow: hidden;
 `;
 
 class Stars extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {};
     this.starArr = this.starArr.bind(this);
     this.partialStarArr = this.partialStarArr.bind(this);

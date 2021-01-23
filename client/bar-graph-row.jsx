@@ -45,8 +45,9 @@ class BarGraphRow extends React.Component {
     return (this.props.stars / this.props.entries) * 100;
   }
   render() {
+    console.log(this.props);
     return (
-      <GraphBar type="range" min="1" max="100" value={this.valueHandler()} readOnly></GraphBar>
+      <GraphBar type="range" min="1" max="100" value={this.valueHandler()} onClick={() => this.props.onClick()} readOnly></GraphBar>
     )
   }
 }

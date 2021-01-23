@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Stars from './stars.jsx';
+import BarGraphRow from './bar-graph-row.jsx';
 
 const ContentTitle = styled.h3`
 color: rgb(41, 41, 41);
@@ -72,6 +72,15 @@ class Snapshot extends React.Component {
         <ContentTitle>Rating Snapshot</ContentTitle>
         <SelectaRow>Select a row below to filter reviews.</SelectaRow>
         <div>
+          <span>5 &#9733; </span><BarGraphRow stars={this.props.stars[5]} entries={this.props.stars.entries} onClick={() => this.props.onClick(5)}/><span>{' ' + this.props.stars[5]}</span>
+          <div></div>
+          <span>4 &#9733; </span><BarGraphRow stars={this.props.stars[4]} entries={this.props.stars.entries} onClick={() => this.props.onClick(4)}/><span>{' ' + this.props.stars[4]}</span>
+          <div></div>
+          <span>3 &#9733; </span><BarGraphRow stars={this.props.stars[3]} entries={this.props.stars.entries} onClick={() => this.props.onClick(3)}/><span>{' ' + this.props.stars[3]}</span>
+          <div></div>
+          <span>2 &#9733; </span><BarGraphRow stars={this.props.stars[2]} entries={this.props.stars.entries} onClick={() => this.props.onClick(2)}/><span>{' ' + this.props.stars[2]}</span>
+          <div></div>
+          <span>1 &#9733; </span><BarGraphRow stars={this.props.stars[1]} entries={this.props.stars.entries} onClick={() => this.props.onClick(1)}/><span>{' ' + this.props.stars[1]}</span>
           <TotalNumber onClick={() => this.props.onClick(5)}>5 Stars: {this.props.stars[5]}</TotalNumber>
           <div></div>
           <TotalNumber onClick={() => this.props.onClick(4)}>4 Stars: {this.props.stars[4]}</TotalNumber>
