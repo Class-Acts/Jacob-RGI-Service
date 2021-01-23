@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Stars from './stars.jsx';
 
 const ContentTitle = styled.h3`
 color: rgb(41, 41, 41);
@@ -38,7 +39,7 @@ class Averages extends React.Component {
     return (
       <ContentContainer>
         <ContentTitle>Average Customer Ratings</ContentTitle>
-        <ContentTitle>Overall: {Math.round(this.props.averages.starAverage * 10) / 10}</ContentTitle>
+        <ContentTitle>Overall <Stars partial={true} stars={Math.round(this.props.averages.starAverage * 10) / 10}></Stars>{' ' + Math.round(this.props.averages.starAverage * 10) / 10}</ContentTitle>
         <ContentTitle>Overall Fit Rating: {this.props.averages.fitAverage}</ContentTitle>
         <ContentTitle>Width: {this.props.averages.widthAverage}</ContentTitle>
       </ContentContainer>

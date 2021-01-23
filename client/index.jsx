@@ -58,14 +58,24 @@ border-color: transparent;
 position: absolute;
 right: 16px;
 `;
-
 const BaseSpanStyle = styled.span`
 font-weight: 400;
 font-size: 16px;
 font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
 `;
-
+const ReviewBarCountHolder = styled.div`
+float: none;
+width: 50%;
+`;
+const ControlBarHolder = styled.div`
+padding-bottom: 10px;
+`;
+const MiniModuleDivHolder = styled.div`
+padding-top: 20px;
+padding-bottom: 20px;
+`;
 const DropdownDivHolder = styled.div`
+float: right;
 position: relative;
 display: inline-block;
 &:hover {
@@ -75,7 +85,6 @@ display: inline-block;
   }
 }
 `;
-
 const DropdownButton = styled.button`
 background-color: white;
 color: rgb(41, 41, 41);
@@ -83,7 +92,6 @@ font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
 font-size: 16px;
 border: none;
 `;
-
 const DropdownContent = styled.div`
 position: absolute;
 display: none;
@@ -105,6 +113,16 @@ cursor: pointer;
 &:hover {
   background-color: #C7DFD1;
 }
+`;
+const LoadMoreButton = styled.button`
+display: table-cell;
+text-align:center;
+veritcal-align: bottom;
+`;
+const LoadMoreButtonParent = styled.div`
+display: table;
+text-align: center;
+vertical-align: bottom;
 `;
 
 class App extends React.Component {
@@ -318,28 +336,38 @@ class App extends React.Component {
           <Title>Reviews</Title>
           <div>
           <div>
-            <div><WriteaReviewButton>Write a Review</WriteaReviewButton></div>
-            <Snapshot onClick={this.starSelector} stars={this.state.stars}/><Averages averages={this.state.fit}/>
+            <div>
+              <WriteaReviewButton>Write a Review</WriteaReviewButton>
+            </div>
+            <div>
+              <Snapshot onClick={this.starSelector} stars={this.state.stars}/><Averages averages={this.state.fit}/>
+            </div>
           </div>
           <div>
-            <BaseSpanStyle>1-{this.state.shownInfo.length + ' '} of {this.state.colatedInfo.length + ' '} Reviews</BaseSpanStyle>
+            <ReviewBarCountHolder>
+              <BaseSpanStyle>1-{this.state.shownInfo.length + ' '} of {this.state.colatedInfo.length + ' '} Reviews</BaseSpanStyle>
+            </ReviewBarCountHolder>
+            <DropdownDivHolder>
+              <DropdownButton>Sort by: {' ' + this.state.sortMethod}</DropdownButton>
+              <DropdownContent>
+                <DropdownItem onClick={() => this.reorderClickHandler('Most Relevant')}>Most Relevant</DropdownItem>
+                <DropdownItem onClick={() => this.reorderClickHandler('Most Helpful')}>Most Helpful</DropdownItem>
+                <DropdownItem onClick={() => this.reorderClickHandler('Highest to Lowest Rating')}>Highest to Lowest Rating</DropdownItem>
+                <DropdownItem onClick={() => this.reorderClickHandler('Lowest to Highest Rating')}>Lowest to Highest Rating</DropdownItem>
+                <DropdownItem onClick={() => this.reorderClickHandler('Most Recent')}>Most Recent</DropdownItem>
+              </DropdownContent>
+            </DropdownDivHolder>
           </div>
-          <DropdownDivHolder>
-            <DropdownButton>Sort by: {' ' + this.state.sortMethod}</DropdownButton>
-            <DropdownContent>
-              <DropdownItem onClick={() => this.reorderClickHandler('Most Relevant')}>Most Relevant</DropdownItem>
-              <DropdownItem onClick={() => this.reorderClickHandler('Most Helpful')}>Most Helpful</DropdownItem>
-              <DropdownItem onClick={() => this.reorderClickHandler('Highest to Lowest Rating')}>Highest to Lowest Rating</DropdownItem>
-              <DropdownItem onClick={() => this.reorderClickHandler('Lowest to Highest Rating')}>Lowest to Highest Rating</DropdownItem>
-              <DropdownItem onClick={() => this.reorderClickHandler('Most Recent')}>Most Recent</DropdownItem>
-            </DropdownContent>
-          </DropdownDivHolder>
           <div>
             {this.state.shownInfo.map((component, index) => <Review key={index} review={component[0]} user={component[1]}/>)}
           </div>
-          <div>
-            <button onClick={() => this.showMore()}>Load More</button>
           </div>
+          <div>
+            <div>
+            <LoadMoreButtonParent>
+              <LoadMoreButton onClick={() => this.showMore()}>Load More</LoadMoreButton>
+            </LoadMoreButtonParent>
+            </div>
           </div>
         </div>
       )

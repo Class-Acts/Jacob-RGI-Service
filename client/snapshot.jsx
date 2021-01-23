@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Stars from './stars.jsx';
 
 const ContentTitle = styled.h3`
 color: rgb(41, 41, 41);

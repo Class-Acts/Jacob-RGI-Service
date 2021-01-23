@@ -1,20 +1,22 @@
 import React from 'react';
+import Stars from './stars.jsx';
 import styled from 'styled-components';
 import moment from 'moment';
 moment().format();
 
-const ReviewListHolder = styled.li`
+const ReviewListHolder = styled.div`
 border-top-color: rgb(184, 184, 184);
 border-top-style: solid;
 border-top-width: 1px;
-`
+`;
 const ProfileDiv = styled.div`
 float: left;
 width: 25%;
 padding-top: 25px;
 padding-bottom: 25px;
 height: auto;
-`
+length: 100%;
+`;
 const ReviewTitle = styled.h3`
 margin-bottom: .25em;
 color: #292929;
@@ -23,7 +25,7 @@ line-height: 20px;
 font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
 font-weight: 700;
 display: block;
-`
+`;
 const ReviewBody = styled.p`
 margin-bottom: 1em;
 display: block;
@@ -31,61 +33,169 @@ font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
 font-size: 16px;
 font-weight: 400;
 height: auto;
-`
-
-const HelpfulDiv = styled.div`
-margin: auto;
-display: block;
-margin-block-start: 1em;
-margin-block-end: 1em;
+line-height: 26px;
+`;
+const DefaultText = styled.span`
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 16px;
+font-weight: 400;
+line-height: 26px;
+width: auto;
+`;
+const BoldedText = styled.span`
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 16px;
+font-weight: bold;
+width: auto;
+line-height: 26px;
+`;
+const ReviewOuterDiv = styled.div`
+float: right;
+width: 70%;
+text-align: left;
+`;
+const FitandWidthModule = styled.div`
+float right;
+width: 25%;
+margin-top: .8em;
+`;
+const UserBioDefaultText = styled.span`
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 15px;
+font-weight: 400;
+line-height: 26px;
+width: auto;
+`;
+const UserBioBoldText = styled.span`
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 15px;
+font-weight: bold;
+line-height: 26px;
+width: auto;
+`;
+const DateText = styled.span`
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 14px;
+font-weight: 400;
+width: auto;
+`;
+const HelpfulSpan = styled.span`
 font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
 font-size: 16px;
 color: rgb(41, 41, 41);
-`
+line-height: 30px;
+`;
+const HelpfulDivHolder = styled.div`
+margin-top: 1em;
+margin-bottom: 1em;
+`;
+const Bullet = styled.span`
+margin-left: 0.3em;
+margin-right: 0.3em;
+color: rgb(41, 41, 41);
+font-size: 14px;
+`;
+const HelpfulButtons = styled.button`
+line-height: 30px;
+margin-left: 0.75em;
+background-color: white;
+border-radius: 2px;
+border-style: solid;
+border-color: rgb(184, 184, 184);
+border-width: 1px;
+color: rgb(41, 41, 41);
+cursor: pointer;
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 14px;
+font-weight: 400;
+height: 30px
+width: auto;
+&:hover {box-shadow: inset 0 0 3px #000000;}
+`;
+const HelpfulInnerDiv = styled.div`
+margin-top: 0.2em;
+margin-bottom: 0.2em;
+line-height: 40px;
+`;
+const FaintBullet = styled.span`
+margin-left: 0.3em;
+margin-right: 0.3em;
+color: rgb(41, 41, 41);
+font-size: 10px;
+opacity: 0.5;
+`;
+
 
 class Review extends React.Component {
   constructor() {
     super();
     this.state = {};
     this.recommended = this.recommended.bind(this);
+    this.recommendedSecondHalf = this.recommendedSecondHalf.bind(this);
   }
+
   recommended() {
-    if (this.props.recommended) {
-      return 'Yes, I recommend this product.';
+    if (this.props.review.recommended) {
+      return 'Yes, ';
     } else {
-      return 'No, I don\'t recommend this product.';
+      return 'No, ';
     }
   }
+
+  recommendedSecondHalf() {
+    if (this.props.review.recommended) {
+      return 'I recommend this product.';
+    } else {
+      return 'I don\'t recommend this product.';
+    }
+  }
+
   render() {
     return (
-      <ReviewListHolder>
-        <ProfileDiv>
-          <div>{this.props.user.name}</div>
-          <div>{this.props.user.location}</div>
-          <div>Review{' ' + this.props.user.number_reviews}</div>
-        </ProfileDiv>
+    <div>
+      <ProfileDiv>
         <div>
-          <div>Overall Fit Rating</div>
-          <div>{this.props.review.fit}</div>
-          <div>Runs Small     -     Runs Large</div>
-          <div>Width</div>
-          <div>{this.props.review.width}</div>
-          <div>Runs Narrow     -      Runs Wide</div>
+          <BoldedText>{this.props.user.name}</BoldedText>
         </div>
         <div>
-          <div> Stars: {this.props.review.stars} - {moment(this.props.review.review_date).fromNow()}</div>
-          <ReviewTitle>{this.props.review.title}</ReviewTitle>
-          <ReviewBody>{this.props.review.body}</ReviewBody>
-          <div>Height{' ' + this.props.user.height}</div>
-          <div>Weight{' ' + this.props.user.weight}</div>
-          <div>Age{' ' + this.props.user.age}</div>
-          <div>{this.recommended()}</div>
+          <DefaultText>{this.props.user.location}</DefaultText>
+        </div>
+        <div>
+          <DefaultText>Review</DefaultText><BoldedText>{' ' + this.props.user.number_reviews}</BoldedText>
+        </div>
+      </ProfileDiv>
+      <ReviewOuterDiv>
+        <ReviewListHolder>
           <div>
-            <HelpfulDiv>Helpful?</HelpfulDiv>
+            <Stars full={true} stars={this.props.review.stars}></Stars>
+            <Bullet>&#8226;</Bullet>
+            <DateText>{moment(this.props.review.review_date).fromNow()}</DateText>
+            <ReviewTitle>{this.props.review.title}</ReviewTitle>
           </div>
-          <div>Helpful? <button>{'Yes - ' + this.props.review.helpful}</button><button>{'No - ' + this.props.review.not_helpful}</button><button>Report as inappropriate</button></div>
-        </div>
-      </ReviewListHolder>
+          <FitandWidthModule>
+            <div>Overall Fit Rating</div>
+            <div>{this.props.review.fit}</div>
+            <div>Runs Small     -     Runs Large</div>
+            <div>Width</div>
+            <div>{this.props.review.width}</div>
+            <div>Runs Narrow     -      Runs Wide</div>
+          </FitandWidthModule>
+          <div>
+            <ReviewBody>{this.props.review.body}</ReviewBody>
+            <UserBioBoldText>Height</UserBioBoldText><UserBioDefaultText>{' ' + this.props.user.height}</UserBioDefaultText>
+            <div></div>
+            <UserBioBoldText>Weight</UserBioBoldText><UserBioDefaultText>{' ' + this.props.user.weight}</UserBioDefaultText>
+            <div></div>
+            <UserBioBoldText>Age</UserBioBoldText><UserBioDefaultText>{' ' + this.props.user.age}</UserBioDefaultText>
+            <div></div>
+            {this.props.review.recommended ? <span>&#10003;</span> : <span>&#10008;</span>}<UserBioBoldText>{' ' + this.recommended()}</UserBioBoldText><UserBioDefaultText>{this.recommendedSecondHalf()}</UserBioDefaultText>
+          </div>
+          <HelpfulDivHolder>
+            <HelpfulInnerDiv><HelpfulSpan>Helpful?</HelpfulSpan><HelpfulButtons>{'Yes'}<FaintBullet>&#8226;</FaintBullet>{this.props.review.helpful}</HelpfulButtons><HelpfulButtons>{'No'}<FaintBullet>&#8226;</FaintBullet>{this.props.review.not_helpful}</HelpfulButtons><HelpfulButtons>Report as inappropriate</HelpfulButtons></HelpfulInnerDiv>
+          </HelpfulDivHolder>
+        </ReviewListHolder>
+      </ReviewOuterDiv>
+    </div>
     )
   }
 }
