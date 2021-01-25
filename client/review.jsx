@@ -15,7 +15,7 @@ float: left;
 width: 25%;
 padding-top: 25px;
 padding-bottom: 25px;
-height: auto;
+height: 100%;
 length: 100%;
 `;
 const ReviewTitle = styled.h3`
@@ -140,14 +140,38 @@ line-height: 26px;
 text-align: right;
 float: right;
 `;
-
+const ClickedHelpfulButtons = styled.button`
+line-height: 30px;
+margin-left: 0.75em;
+background-color: white;
+color: rgb(41, 41, 41);
+cursor: text;
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 14px;
+font-weight: 400;
+height: 30px
+width: auto;
+border: none;
+`;
+const ClickedYesButton = styled.span`
+color: green;
+`;
+const ClickedNoButton = styled.span`
+color: red;
+`;
 
 class Review extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      helpfulVote: false,
+      reported: false
+    };
     this.recommended = this.recommended.bind(this);
     this.recommendedSecondHalf = this.recommendedSecondHalf.bind(this);
+    this.helpfulClick = this.helpfulClick.bind(this);
+    this.unhelpfulClick = this.unhelpfulClick.bind(this);
+    this.reportClick = this.reportClick.bind(this);
   }
 
   recommended() {
@@ -164,6 +188,21 @@ class Review extends React.Component {
     } else {
       return 'I don\'t recommend this product.';
     }
+  }
+
+  helpfulClick() {
+    let incremented = this.props.review.helpful + 1;
+    this.setState({helpfulVote: true, helpfulCount: incremented, unhelpfulCount: this.props.review.not_helpful});
+  }
+
+  unhelpfulClick() {
+    let incremented = this.props.review.not_helpful + 1;
+    this.setState({helpfulVote: true, unhelpfulCount: incremented, helpfulCount: this.props.review.helpful});
+  }
+
+  reportClick() {
+    //will do something here at some point to hide reviews that have been reported, maybe
+    this.setState({reported: true});
   }
 
   render() {
@@ -207,7 +246,24 @@ class Review extends React.Component {
             {this.props.review.recommended ? <span>&#10003;</span> : <span>&#10008;</span>}<UserBioBoldText>{' ' + this.recommended()}</UserBioBoldText><UserBioDefaultText>{this.recommendedSecondHalf()}</UserBioDefaultText>
           </div>
           <HelpfulDivHolder>
-            <HelpfulInnerDiv><HelpfulSpan>Helpful?</HelpfulSpan><HelpfulButtons>{'Yes'}<FaintBullet>&#8226;</FaintBullet>{this.props.review.helpful}</HelpfulButtons><HelpfulButtons>{'No'}<FaintBullet>&#8226;</FaintBullet>{this.props.review.not_helpful}</HelpfulButtons><HelpfulButtons>Report as inappropriate</HelpfulButtons></HelpfulInnerDiv>
+            <HelpfulInnerDiv>
+              <HelpfulSpan>Helpful?</HelpfulSpan>
+              {this.state.helpfulVote ?
+              <span>
+              <ClickedHelpfulButtons>{'Yes'}<FaintBullet>&#8226;</FaintBullet><ClickedYesButton>{this.state.helpfulCount}</ClickedYesButton></ClickedHelpfulButtons>
+              <ClickedHelpfulButtons>{'No'}<FaintBullet>&#8226;</FaintBullet><ClickedNoButton>{this.state.unhelpfulCount}</ClickedNoButton></ClickedHelpfulButtons>
+              </span>
+               :
+               <span>
+                 <HelpfulButtons onClick={() => this.helpfulClick()}>{'Yes'}<FaintBullet>&#8226;</FaintBullet>{this.props.review.helpful}</HelpfulButtons>
+                 <HelpfulButtons onClick={() => this.unhelpfulClick()}>{'No'}<FaintBullet>&#8226;</FaintBullet>{this.props.review.not_helpful}</HelpfulButtons>
+               </span>}
+               {this.state.reported ?
+               <ClickedHelpfulButtons>Reported</ClickedHelpfulButtons>
+               :
+               <HelpfulButtons onClick={() => this.reportClick()}>Report as inappropriate</HelpfulButtons>
+              }
+              </HelpfulInnerDiv>
           </HelpfulDivHolder>
         </ReviewListHolder>
       </ReviewOuterDiv>
