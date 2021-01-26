@@ -16,6 +16,7 @@
 
 ## Usage
 
+> first, run 'npm install dependencies' to install everything required to run the app
 > 'npm run start' will start a production instance of the server defined in index.js
 > 'npm run seed' will truncate the database as it exists, and run the seeding process with freshly created data
 > server output is currently set to localhost:3000
