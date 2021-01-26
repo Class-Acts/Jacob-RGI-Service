@@ -318,7 +318,7 @@ class App extends React.Component {
   //calls componentMath() on every mount
   componentDidMount() {
     let shoeId = this.state.shoeId;
-    $.ajax('/api/shoes/' + shoeId + '/reviews')
+    $.ajax('http://localhost:3000/api/shoes/' + shoeId + '/reviews')
       .then((result) => {
         let userInfo = [];
         let reviewInfo = [];

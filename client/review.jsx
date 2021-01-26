@@ -250,7 +250,7 @@ class Review extends React.Component {
               <HelpfulSpan>Helpful?</HelpfulSpan>
               {this.state.helpfulVote ?
               <span>
-              <ClickedHelpfulButtons>{'Yes'}<FaintBullet>&#8226;</FaintBullet><ClickedYesButton>{this.state.helpfulCount}</ClickedYesButton></ClickedHelpfulButtons>
+              <ClickedHelpfulButtons >{'Yes'}<FaintBullet>&#8226;</FaintBullet><ClickedYesButton>{this.state.helpfulCount}</ClickedYesButton></ClickedHelpfulButtons>
               <ClickedHelpfulButtons>{'No'}<FaintBullet>&#8226;</FaintBullet><ClickedNoButton>{this.state.unhelpfulCount}</ClickedNoButton></ClickedHelpfulButtons>
               </span>
                :

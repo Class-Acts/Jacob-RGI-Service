@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 const controllers = require('./db/db-controllers.js');
+const cors = require('cors');
+
+app.use(cors());
 
 app.use(express.static('public'));
 
