@@ -151,6 +151,12 @@ const seedReviews = () => {
   })
 }
 
+controllers.connect();
+controllers.dropDatabase();
+controllers.buildDatabase();
+controllers.useDatabase();
+controllers.buildUsersTable();
+controllers.buildReviewsTable();
 seedUsers();
 seedReviews();
 //users categories - name, number of reviews, typical size, height, weight, age, location

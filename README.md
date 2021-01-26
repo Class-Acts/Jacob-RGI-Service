@@ -16,8 +16,10 @@
 
 ## Usage
 
-> 'npm run start' will start a production instance of the server defined in index.js
-> 'npm run seed' will truncate the database as it exists, and run the seeding process with freshly created data
+> first, run 'npm install dependencies' to install everything required to run the app
+> 'npm run build' will build a production bundle of this service with webpack
+> 'npm run seed' will define the mySQL connection, create the db, dropping it if it already exists, define the tables, and finally seed them with the generated information
+> 'npm run start' will start up the server
 > server output is currently set to localhost:3000
 > the ajax request in index.jsx is based on theoretically selecting an item, which would theoretically set state with a reference to that item's id#
 > currently the ajax request is based on index.jsx's state which I have pre-set to the number 20, because I like the number 20
