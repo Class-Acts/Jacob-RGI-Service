@@ -152,7 +152,6 @@ const seedReviews = () => {
 }
 
 controllers.connect();
-controllers.dropDatabase();
 controllers.buildDatabase();
 controllers.useDatabase();
 controllers.buildUsersTable();
