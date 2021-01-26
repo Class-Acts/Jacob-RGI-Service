@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import Stars from './stars.jsx';
+import Slider from './slider.jsx';
 
 const ContentTitle = styled.h3`
 color: rgb(41, 41, 41);
@@ -16,12 +18,12 @@ padding-right: 16px;
 position: static;
 text-align: left;
 width: 436px;
-`
+`;
 
 const ContentContainer = styled.div`
 width: 50%;
 float: left;
-`
+`;
 
 
 class Averages extends React.Component {
@@ -38,9 +40,9 @@ class Averages extends React.Component {
     return (
       <ContentContainer>
         <ContentTitle>Average Customer Ratings</ContentTitle>
-        <div>Average Rating: {this.props.averages.starAverage}</div>
-        <div>Average Fit: {this.props.averages.fitAverage}</div>
-        <div>Average Width: {this.props.averages.widthAverage}</div>
+        <ContentTitle>Overall <Stars partial={true} stars={Math.round(this.props.averages.starAverage * 10) / 10}></Stars>{' ' + Math.round(this.props.averages.starAverage * 10) / 10}</ContentTitle>
+        <ContentTitle>Overall Fit Rating <Slider value={this.props.averages.fitAverage} /></ContentTitle>
+        <ContentTitle>Width <Slider value={this.props.averages.widthAverage} /></ContentTitle>
       </ContentContainer>
     )
   }

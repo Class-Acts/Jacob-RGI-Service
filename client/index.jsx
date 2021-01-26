@@ -58,6 +58,83 @@ border-color: transparent;
 position: absolute;
 right: 16px;
 `;
+const BaseSpanStyle = styled.span`
+font-weight: 400;
+font-size: 16px;
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+`;
+const ReviewBarCountHolder = styled.div`
+float: none;
+width: 50%;
+`;
+const ControlBarHolder = styled.div`
+padding-bottom: 10px;
+`;
+const MiniModuleDivHolder = styled.div`
+padding-top: 20px;
+padding-bottom: 20px;
+`;
+const DropdownDivHolder = styled.div`
+float: right;
+position: relative;
+display: inline-block;
+&:hover {
+  display: block;
+  >div {
+      display: block;
+  }
+}
+`;
+const DropdownButton = styled.button`
+background-color: white;
+color: rgb(41, 41, 41);
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+font-size: 16px;
+border: none;
+`;
+const DropdownContent = styled.div`
+position: absolute;
+display: none;
+background-color: white;
+min-width: auto;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 1;
+border-color: rgb(41, 41, 41);
+border-style: solid;
+border-width: 1px;
+border-radius: 4px;
+`;
+const DropdownItem = styled.a`
+color: rgb(41, 41, 41);
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+cursor: pointer;
+&:hover {
+  background-color: #C7DFD1;
+}
+`;
+const LoadMoreButton = styled.button`
+display: table-cell;
+text-align: center;
+veritcal-align: bottom;
+background-color: rgb(237, 237, 237);
+border-color: rgb(184, 184, 184);
+border-radius: 2px;
+border-style: solid;
+border-width: 1px;
+font-family: Arial, Helvetica, "Bitstream Vera", sans-serif;
+font-size: 14px;
+line-height: 20px;
+height: 32px;
+width: 300px;
+`;
+const LoadMoreButtonParent = styled.div`
+margin: auto;
+display: table;
+text-align: center;
+vertical-align: bottom;
+`;
 
 class App extends React.Component {
   constructor() {
@@ -241,7 +318,7 @@ class App extends React.Component {
   //calls componentMath() on every mount
   componentDidMount() {
     let shoeId = this.state.shoeId;
-    $.ajax('/api/shoes/' + shoeId + '/reviews')
+    $.ajax('http://localhost:3000/api/shoes/' + shoeId + '/reviews')
       .then((result) => {
         let userInfo = [];
         let reviewInfo = [];
@@ -270,25 +347,38 @@ class App extends React.Component {
           <Title>Reviews</Title>
           <div>
           <div>
-            <div><WriteaReviewButton>Write a Review</WriteaReviewButton></div>
-            <Snapshot onClick={this.starSelector} stars={this.state.stars}/><Averages averages={this.state.fit}/>
+            <div>
+              <WriteaReviewButton>Write a Review</WriteaReviewButton>
+            </div>
+            <div>
+              <Snapshot onClick={this.starSelector} stars={this.state.stars}/><Averages averages={this.state.fit}/>
+            </div>
           </div>
-          <div>1-{this.state.shownInfo.length + ' '} of {this.state.colatedInfo.length + ' '} Reviews</div>
           <div>
-            <button>Sort by: {' ' + this.state.sortMethod}</button>
-            <div></div>
-            <a onClick={() => this.reorderClickHandler('Most Relevant')}>Most Relevant</a>
-            <a onClick={() => this.reorderClickHandler('Most Helpful')}>Most Helpful</a>
-            <a onClick={() => this.reorderClickHandler('Highest to Lowest Rating')}>Highest to Lowest Rating</a>
-            <a onClick={() => this.reorderClickHandler('Lowest to Highest Rating')}>Lowest to Highest Rating</a>
-            <a onClick={() => this.reorderClickHandler('Most Recent')}>Most Recent</a>
+            <ReviewBarCountHolder>
+              <BaseSpanStyle>1-{this.state.shownInfo.length + ' '} of {this.state.colatedInfo.length + ' '} Reviews</BaseSpanStyle>
+            </ReviewBarCountHolder>
+            <DropdownDivHolder>
+              <DropdownButton>Sort by: {' ' + this.state.sortMethod}</DropdownButton>
+              <DropdownContent>
+                <DropdownItem onClick={() => this.reorderClickHandler('Most Relevant')}>Most Relevant</DropdownItem>
+                <DropdownItem onClick={() => this.reorderClickHandler('Most Helpful')}>Most Helpful</DropdownItem>
+                <DropdownItem onClick={() => this.reorderClickHandler('Highest to Lowest Rating')}>Highest to Lowest Rating</DropdownItem>
+                <DropdownItem onClick={() => this.reorderClickHandler('Lowest to Highest Rating')}>Lowest to Highest Rating</DropdownItem>
+                <DropdownItem onClick={() => this.reorderClickHandler('Most Recent')}>Most Recent</DropdownItem>
+              </DropdownContent>
+            </DropdownDivHolder>
           </div>
           <div>
             {this.state.shownInfo.map((component, index) => <Review key={index} review={component[0]} user={component[1]}/>)}
           </div>
-          <div>
-            <button onClick={() => this.showMore()}>Load More</button>
           </div>
+          <div>
+            <div>
+            <LoadMoreButtonParent>
+              <LoadMoreButton onClick={() => this.showMore()}>Load More</LoadMoreButton>
+            </LoadMoreButtonParent>
+            </div>
           </div>
         </div>
       )

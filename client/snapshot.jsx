@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import BarGraphRow from './bar-graph-row.jsx';
 
 const ContentTitle = styled.h3`
 color: rgb(41, 41, 41);
@@ -46,7 +47,16 @@ const ContentContainer = styled.div`
 width: 50%;
 float: left;
 `
-
+const TotalNumber = styled.span`
+color: rgb(41, 41, 41);
+font-size: 16px;
+font-weight: 400;
+font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+line-height: 19.5px;
+padding-left: 5px;
+padding-right: 5px;
+parring-bottom: 3px;
+`
 
 class Snapshot extends React.Component {
   constructor() {
@@ -66,11 +76,15 @@ class Snapshot extends React.Component {
         <ContentTitle>Rating Snapshot</ContentTitle>
         <SelectaRow>Select a row below to filter reviews.</SelectaRow>
         <div>
-          <div onClick={() => this.props.onClick(5)}>5 Stars: {this.props.stars[5]}</div>
-          <div onClick={() => this.props.onClick(4)}>4 Stars: {this.props.stars[4]}</div>
-          <div onClick={() => this.props.onClick(3)}>3 Stars: {this.props.stars[3]}</div>
-          <div onClick={() => this.props.onClick(2)}>2 Stars: {this.props.stars[2]}</div>
-          <div onClick={() => this.props.onClick(1)}>1 Stars: {this.props.stars[1]}</div>
+          <TotalNumber>5 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[5]} entries={this.props.stars.entries} onClick={() => this.props.onClick(5)}/><TotalNumber>{' ' + this.props.stars[5]}</TotalNumber>
+          <div></div>
+          <TotalNumber>4 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[4]} entries={this.props.stars.entries} onClick={() => this.props.onClick(4)}/><TotalNumber>{' ' + this.props.stars[4]}</TotalNumber>
+          <div></div>
+          <TotalNumber>3 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[3]} entries={this.props.stars.entries} onClick={() => this.props.onClick(3)}/><TotalNumber>{' ' + this.props.stars[3]}</TotalNumber>
+          <div></div>
+          <TotalNumber>2 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[2]} entries={this.props.stars.entries} onClick={() => this.props.onClick(2)}/><TotalNumber>{' ' + this.props.stars[2]}</TotalNumber>
+          <div></div>
+          <TotalNumber>1 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[1]} entries={this.props.stars.entries} onClick={() => this.props.onClick(1)}/><TotalNumber>{' ' + this.props.stars[1]}</TotalNumber>
         </div>
       </ContentContainer>
     )
