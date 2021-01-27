@@ -19,19 +19,22 @@ font-stretch: 100%;
 font-weight: 600;
 letter-spacing: -0.16px;
 line-height: 28.4329px;
-padding-bottom: 10px;
-padding-left: 5px;
+padding-bottom: 40px;
+padding-left: 5%;
 padding-right: 5px;
 padding-top: 10px;
 text-align: left;
 margin: -1px 0 0;
-padding: 1rem .5rem;
 border-top-width: 1px;
 border-top-style: solid;
 border-top-color: rgb(204, 204, 204);
 cursor: pointer;
 `;
-
+const WriteAReviewHolder = styled.div`
+float: right;
+padding-right: 8%;
+padding-top: 2%;
+`;
 const WriteaReviewButton = styled.button`
 align-items: flex-start;
 background-color: rgb(34, 92, 78);
@@ -56,25 +59,25 @@ padding-left: 16px;
 border-radius: 2px 2px 2px 2px;
 border-color: transparent;
 position: absolute;
-right: 16px;
+right: 8%;
 `;
 const BaseSpanStyle = styled.span`
 font-weight: 400;
 font-size: 16px;
 font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+padding-left: 11%;
 `;
 const ReviewBarCountHolder = styled.div`
 float: none;
 width: 50%;
+padding-bottom: 0px;
+margin-left: 10px;
 `;
-const ControlBarHolder = styled.div`
-padding-bottom: 10px;
-`;
-const MiniModuleDivHolder = styled.div`
-padding-top: 20px;
-padding-bottom: 20px;
+const ControlBar = styled.div`
+width: 100%;
 `;
 const DropdownDivHolder = styled.div`
+margin-right: 10%;
 float: right;
 position: relative;
 display: inline-block;
@@ -130,11 +133,23 @@ height: 32px;
 width: 300px;
 `;
 const LoadMoreButtonParent = styled.div`
+padding-top: 20px;
+padding-bottom: 20px;
 margin: auto;
 display: table;
 text-align: center;
 vertical-align: bottom;
 `;
+const TestDiv = styled.div`
+width: 50%
+float: right;
+padding-bottom: 20px;
+`;
+const AppHolder = styled.div`
+width: 90%;
+margin-left: 5%;
+`;
+
 
 class App extends React.Component {
   constructor() {
@@ -343,35 +358,37 @@ class App extends React.Component {
   render() {
     if (this.state.update) {
       return (
-        <div>
+        <AppHolder>
           <Title>Reviews</Title>
           <div>
-          <div>
-            <div>
+            <WriteAReviewHolder>
               <WriteaReviewButton>Write a Review</WriteaReviewButton>
-            </div>
+            </WriteAReviewHolder>
             <div>
               <Snapshot onClick={this.starSelector} stars={this.state.stars}/><Averages averages={this.state.fit}/>
             </div>
           </div>
           <div>
-            <ReviewBarCountHolder>
-              <BaseSpanStyle>1-{this.state.shownInfo.length + ' '} of {this.state.colatedInfo.length + ' '} Reviews</BaseSpanStyle>
-            </ReviewBarCountHolder>
-            <DropdownDivHolder>
-              <DropdownButton>Sort by: {' ' + this.state.sortMethod}</DropdownButton>
-              <DropdownContent>
-                <DropdownItem onClick={() => this.reorderClickHandler('Most Relevant')}>Most Relevant</DropdownItem>
-                <DropdownItem onClick={() => this.reorderClickHandler('Most Helpful')}>Most Helpful</DropdownItem>
-                <DropdownItem onClick={() => this.reorderClickHandler('Highest to Lowest Rating')}>Highest to Lowest Rating</DropdownItem>
-                <DropdownItem onClick={() => this.reorderClickHandler('Lowest to Highest Rating')}>Lowest to Highest Rating</DropdownItem>
-                <DropdownItem onClick={() => this.reorderClickHandler('Most Recent')}>Most Recent</DropdownItem>
-              </DropdownContent>
-            </DropdownDivHolder>
+            <ControlBar>
+              <ReviewBarCountHolder>
+                <BaseSpanStyle>1-{this.state.shownInfo.length + ' '} of {this.state.colatedInfo.length + ' '} Reviews</BaseSpanStyle>
+              </ReviewBarCountHolder>
+              <TestDiv>
+                <DropdownDivHolder>
+                <DropdownButton>Sort by: {' ' + this.state.sortMethod}</DropdownButton>
+                <DropdownContent>
+                  <DropdownItem onClick={() => this.reorderClickHandler('Most Relevant')}>Most Relevant</DropdownItem>
+                  <DropdownItem onClick={() => this.reorderClickHandler('Most Helpful')}>Most Helpful</DropdownItem>
+                  <DropdownItem onClick={() => this.reorderClickHandler('Highest to Lowest Rating')}>Highest to Lowest Rating</DropdownItem>
+                  <DropdownItem onClick={() => this.reorderClickHandler('Lowest to Highest Rating')}>Lowest to Highest Rating</DropdownItem>
+                  <DropdownItem onClick={() => this.reorderClickHandler('Most Recent')}>Most Recent</DropdownItem>
+                </DropdownContent>
+              </DropdownDivHolder>
+              </TestDiv>
+            </ControlBar>
           </div>
           <div>
             {this.state.shownInfo.map((component, index) => <Review key={index} review={component[0]} user={component[1]}/>)}
-          </div>
           </div>
           <div>
             <div>
@@ -380,7 +397,7 @@ class App extends React.Component {
             </LoadMoreButtonParent>
             </div>
           </div>
-        </div>
+        </AppHolder>
       )
     } else {
       return (

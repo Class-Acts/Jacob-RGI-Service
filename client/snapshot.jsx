@@ -7,47 +7,29 @@ color: rgb(41, 41, 41);
 font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
 font-size: 16px;
 font-weight: 400;
-font-style: normal;
-height: 24px;
-left: auto;
-right: auto;
-opacity: 1;
-padding-left: 8px;
-padding-right: 16px;
-position: static;
+height: 18px;
+padding-left: 11%;
 text-align: left;
 width: 436px;
-`
+`;
 const SelectaRow = styled.p`
 color: rgb(41, 41, 41);
 font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
 font-size: 16px;
 font-weight: 400;
 height: 19px;
-left: auto;
-right: auto;
-margin-block-end: 5px;
-margin-block-start: 0px;
-margin-bottom: 5px;
-margin-inline-end: 5px;
-margin-inline-start: 5px;
-margin-left: 5px;
-margin-right: 5px;
-margin-top: 0px;
-opacity: 1;
 padding-bottom: 5px;
-padding-left: 5px;
-padding-right: 5px;
-padding-top: 0px;
+padding-left: 12%;
 position: static;
 width: 440px;
-`
-
+`;
 const ContentContainer = styled.div`
 width: 50%;
 float: left;
-`
+padding-bottom: 30px;
+`;
 const TotalNumber = styled.span`
+opacity: 0.9;
 color: rgb(41, 41, 41);
 font-size: 16px;
 font-weight: 400;
@@ -55,8 +37,14 @@ font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
 line-height: 19.5px;
 padding-left: 5px;
 padding-right: 5px;
-parring-bottom: 3px;
-`
+`;
+const InnerContainer = styled.div`
+width: 80%;
+padding-left: 12%
+`;
+const DisplayRow = styled.div`
+padding-bottom: 10px;
+`;
 
 class Snapshot extends React.Component {
   constructor() {
@@ -75,17 +63,23 @@ class Snapshot extends React.Component {
       <ContentContainer>
         <ContentTitle>Rating Snapshot</ContentTitle>
         <SelectaRow>Select a row below to filter reviews.</SelectaRow>
-        <div>
-          <TotalNumber>5 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[5]} entries={this.props.stars.entries} onClick={() => this.props.onClick(5)}/><TotalNumber>{' ' + this.props.stars[5]}</TotalNumber>
-          <div></div>
-          <TotalNumber>4 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[4]} entries={this.props.stars.entries} onClick={() => this.props.onClick(4)}/><TotalNumber>{' ' + this.props.stars[4]}</TotalNumber>
-          <div></div>
-          <TotalNumber>3 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[3]} entries={this.props.stars.entries} onClick={() => this.props.onClick(3)}/><TotalNumber>{' ' + this.props.stars[3]}</TotalNumber>
-          <div></div>
-          <TotalNumber>2 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[2]} entries={this.props.stars.entries} onClick={() => this.props.onClick(2)}/><TotalNumber>{' ' + this.props.stars[2]}</TotalNumber>
-          <div></div>
-          <TotalNumber>1 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[1]} entries={this.props.stars.entries} onClick={() => this.props.onClick(1)}/><TotalNumber>{' ' + this.props.stars[1]}</TotalNumber>
-        </div>
+        <InnerContainer>
+          <DisplayRow>
+            <TotalNumber>5 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[5]} entries={this.props.stars.entries} onClick={() => this.props.onClick(5)}/><TotalNumber>{' ' + this.props.stars[5]}</TotalNumber>
+          </DisplayRow>
+          <DisplayRow>
+            <TotalNumber>4 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[4]} entries={this.props.stars.entries} onClick={() => this.props.onClick(4)}/><TotalNumber>{' ' + this.props.stars[4]}</TotalNumber>
+          </DisplayRow>
+          <DisplayRow>
+            <TotalNumber>3 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[3]} entries={this.props.stars.entries} onClick={() => this.props.onClick(3)}/><TotalNumber>{' ' + this.props.stars[3]}</TotalNumber>
+          </DisplayRow>
+          <DisplayRow>
+            <TotalNumber>2 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[2]} entries={this.props.stars.entries} onClick={() => this.props.onClick(2)}/><TotalNumber>{' ' + this.props.stars[2]}</TotalNumber>
+          </DisplayRow>
+          <DisplayRow>
+            <TotalNumber>1 &#9733; </TotalNumber><BarGraphRow stars={this.props.stars[1]} entries={this.props.stars.entries} onClick={() => this.props.onClick(1)}/><TotalNumber>{' ' + this.props.stars[1]}</TotalNumber>
+          </DisplayRow>
+        </InnerContainer>
       </ContentContainer>
     )
   }

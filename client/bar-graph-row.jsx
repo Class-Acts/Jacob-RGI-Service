@@ -5,6 +5,9 @@ const GraphContainer = styled.div`
 width: 100%;
 `;
 
+// #225C4E;
+// inset -1px -2px 4px 0px rgba(0, 0, 0, 0.69),
+// inset 1px 2px 4px 0px rgba(255, 255, 255, 0.5);
 const GraphBar = styled.input`
 margin: auto;
 position: relative;
@@ -12,8 +15,8 @@ overflow: hidden;
 appearance: none;
 width: 190px;
 height: 10px;
-background-color: rgb(247, 247, 247);
-border-color: rgb(41, 41, 41);
+background-color: #225C4E;
+border-color: rgba(41, 41, 41, 0.2);
 border-radius: 2px;
 border-width: 1px;
 border-style: solid;
@@ -23,15 +26,14 @@ inset 1px 2px 4px 0px rgba(255, 255, 255, 0.5);
 outline-none;
 &::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 2px;
+  width: 1px;
   height: 12px;
   background: #225C4E;
-  border-color: rgb(247, 247, 247);
+  border-color: #225C4E;
   border-width: 1px;
-  border-right-style: thin;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  box-shadow: -100.05vw 0 0 100vw #225C4E;
+  border-right-style: solid;
+  box-shadow:
+  100vw 0 0 100vw rgb(247, 247, 247);
 }
 `;
 
