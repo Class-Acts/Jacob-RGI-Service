@@ -17,12 +17,14 @@ padding-left: 8px;
 padding-right: 16px;
 position: static;
 text-align: left;
-width: 436px;
 `;
 
 const ContentContainer = styled.div`
 width: 50%;
 float: left;
+`;
+const InnerContainer = styled.div`
+width: 60%;
 `;
 
 
@@ -39,10 +41,12 @@ class Averages extends React.Component {
   render() {
     return (
       <ContentContainer>
-        <ContentTitle>Average Customer Ratings</ContentTitle>
-        <ContentTitle>Overall <Stars partial={true} stars={Math.round(this.props.averages.starAverage * 10) / 10}></Stars>{' ' + Math.round(this.props.averages.starAverage * 10) / 10}</ContentTitle>
-        <ContentTitle>Overall Fit Rating <Slider value={this.props.averages.fitAverage} /></ContentTitle>
-        <ContentTitle>Width <Slider value={this.props.averages.widthAverage} /></ContentTitle>
+        <InnerContainer>
+          <ContentTitle>Average Customer Ratings</ContentTitle>
+          <ContentTitle>Overall <Stars partial={true} stars={Math.round(this.props.averages.starAverage * 10) / 10}></Stars>{' ' + Math.round(this.props.averages.starAverage * 10) / 10}</ContentTitle>
+          <ContentTitle>Overall Fit Rating <Slider value={this.props.averages.fitAverage} /></ContentTitle>
+          <ContentTitle>Width <Slider value={this.props.averages.widthAverage} /></ContentTitle>
+        </InnerContainer>
       </ContentContainer>
     )
   }

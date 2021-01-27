@@ -6,17 +6,20 @@ import moment from 'moment';
 moment().format();
 
 const ReviewListHolder = styled.div`
+margin-left: 6%;
+width: 85%;
 border-top-color: rgb(184, 184, 184);
 border-top-style: solid;
 border-top-width: 1px;
 `;
 const ProfileDiv = styled.div`
-float: left;
-width: 25%;
-padding-top: 25px;
-padding-bottom: 25px;
+grid-column-start: 1;
+grid-column-end: 2;
+grid-row-start: 1;
+grid-row-end: 4;
+width: 100%;
 height: 100%;
-length: 100%;
+padding-left: 34%;
 `;
 const ReviewTitle = styled.h3`
 margin-bottom: .25em;
@@ -51,8 +54,9 @@ width: auto;
 line-height: 26px;
 `;
 const ReviewOuterDiv = styled.div`
-float: right;
-width: 70%;
+grid-column-start: 2;
+grid-row-start: 1;
+grid-row-end: 4;
 text-align: left;
 `;
 const FitandWidthModule = styled.div`
@@ -159,6 +163,11 @@ color: green;
 const ClickedNoButton = styled.span`
 color: red;
 `;
+const ReviewContainer = styled.div`
+display: grid;
+grid-template-columns: 20% 60%;
+grid-column-gap: 10%;
+`;
 
 class Review extends React.Component {
   constructor() {
@@ -207,7 +216,9 @@ class Review extends React.Component {
 
   render() {
     return (
-    <div>
+      <div>
+        <ReviewListHolder></ReviewListHolder>
+        <ReviewContainer>
       <ProfileDiv>
         <div>
           <BoldedText>{this.props.user.name}</BoldedText>
@@ -220,7 +231,6 @@ class Review extends React.Component {
         </div>
       </ProfileDiv>
       <ReviewOuterDiv>
-        <ReviewListHolder>
           <div>
             <Stars full={true} stars={this.props.review.stars}></Stars>
             <Bullet>&#8226;</Bullet>
@@ -230,10 +240,14 @@ class Review extends React.Component {
           <FitandWidthModule>
             <UserBioDefaultText>Overall Fit Rating</UserBioDefaultText>
             <Slider value={this.props.review.fit}/>
-            <div><FitSpanLeft>Runs Small</FitSpanLeft><FitSpanRight>Runs Large</FitSpanRight></div>
+            <div>
+              <FitSpanLeft>Runs Small</FitSpanLeft><FitSpanRight>Runs Large</FitSpanRight>
+            </div>
             <UserBioDefaultText>Width</UserBioDefaultText>
             <Slider value={this.props.review.width}/>
-            <div><FitSpanLeft>Runs Narrow</FitSpanLeft><FitSpanRight>Runs Wide</FitSpanRight></div>
+            <div>
+              <FitSpanLeft>Runs Narrow</FitSpanLeft><FitSpanRight>Runs Wide</FitSpanRight>
+            </div>
           </FitandWidthModule>
           <div>
             <ReviewBody>{this.props.review.body}</ReviewBody>
@@ -265,9 +279,9 @@ class Review extends React.Component {
               }
               </HelpfulInnerDiv>
           </HelpfulDivHolder>
-        </ReviewListHolder>
       </ReviewOuterDiv>
-    </div>
+    </ReviewContainer>
+      </div>
     )
   }
 }
