@@ -20,7 +20,6 @@ font-weight: 600;
 letter-spacing: -0.16px;
 line-height: 28.4329px;
 padding-bottom: 40px;
-padding-left: 5%;
 padding-right: 5px;
 padding-top: 10px;
 text-align: left;
@@ -58,7 +57,7 @@ padding-bottom: 8px;
 padding-left: 16px;
 border-radius: 2px 2px 2px 2px;
 border-color: transparent;
-position: absolute;
+position: relative;
 right: 8%;
 `;
 const BaseSpanStyle = styled.span`
@@ -146,8 +145,7 @@ float: right;
 padding-bottom: 20px;
 `;
 const AppHolder = styled.div`
-width: 90%;
-margin-left: 5%;
+width: 100%;
 `;
 
 
@@ -333,7 +331,7 @@ class App extends React.Component {
   //calls componentMath() on every mount
   componentDidMount() {
     let shoeId = this.state.shoeId;
-    $.ajax('http://localhost:3000/api/shoes/' + shoeId + '/reviews')
+    $.ajax('http://3.139.206.61:3000/api/shoes/' + shoeId + '/reviews')
       .then((result) => {
         let userInfo = [];
         let reviewInfo = [];

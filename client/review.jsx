@@ -6,8 +6,7 @@ import moment from 'moment';
 moment().format();
 
 const ReviewListHolder = styled.div`
-margin-left: 6%;
-width: 85%;
+width: 100%;
 border-top-color: rgb(184, 184, 184);
 border-top-style: solid;
 border-top-width: 1px;
@@ -19,7 +18,6 @@ grid-row-start: 1;
 grid-row-end: 4;
 width: 100%;
 height: 100%;
-padding-left: 34%;
 `;
 const ReviewTitle = styled.h3`
 margin-bottom: .25em;
@@ -113,7 +111,7 @@ cursor: pointer;
 font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
 font-size: 14px;
 font-weight: 400;
-height: 30px
+height: 34px;
 width: auto;
 &:hover {box-shadow: inset 0 0 3px #000000;}
 `;
@@ -251,6 +249,8 @@ class Review extends React.Component {
           </FitandWidthModule>
           <div>
             <ReviewBody>{this.props.review.body}</ReviewBody>
+            <UserBioBoldText>Typical Shoe Size</UserBioBoldText><UserBioDefaultText>{' ' + this.props.user.typical_size}</UserBioDefaultText>
+            <div></div>
             <UserBioBoldText>Height</UserBioBoldText><UserBioDefaultText>{' ' + this.props.user.height}</UserBioDefaultText>
             <div></div>
             <UserBioBoldText>Weight</UserBioBoldText><UserBioDefaultText>{' ' + this.props.user.weight}</UserBioDefaultText>
