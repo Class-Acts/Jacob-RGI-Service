@@ -6,8 +6,7 @@ import moment from 'moment';
 moment().format();
 
 const ReviewListHolder = styled.div`
-margin-left: 6%;
-width: 85%;
+width: 100%;
 border-top-color: rgb(184, 184, 184);
 border-top-style: solid;
 border-top-width: 1px;
@@ -19,7 +18,6 @@ grid-row-start: 1;
 grid-row-end: 4;
 width: 100%;
 height: 100%;
-padding-left: 34%;
 `;
 const ReviewTitle = styled.h3`
 margin-bottom: .25em;

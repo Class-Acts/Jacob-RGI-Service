@@ -1,7 +1,7 @@
 const connectionInfo = {
-  user: 'root',
-  password: 'password',
-  host: 'http://3.139.206.61'
+  user: 'sam',
+  password: 'gJ3jLMNHKrTo!z_k!m9A',
+  host: 'localhost'
 };
 
 module.exports = connectionInfo;
