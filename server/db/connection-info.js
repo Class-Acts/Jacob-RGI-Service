@@ -1,6 +1,6 @@
 const connectionInfo = {
-  user: 'root',
-  password: 'password',
+  user: 'student',
+  password: 'student',
   host: 'localhost'
 };
 
