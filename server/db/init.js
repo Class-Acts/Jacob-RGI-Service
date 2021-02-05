@@ -14,14 +14,15 @@ const logging = true;
 pool.on('connect', (client) => {
   console.log('client connected to pool');
 });
-const logResult = (resultObj) => {
+const logResult = (resultObj, more) => {
+  const anyExtra = more || '';
   if (logging) {
-    if (resultObj.rowCount !== undefined) {
-      console.log(`Success: ${resultObj.command} ${resultObj.rowCount} rows`);
-    } else if (resultObj.fields !== undefined) {
-      console.log(`Success: ${resultObj.command} ${resultObj.fields}`);
+    if (resultObj.rowCount !== null) {
+      console.log(`Success: ${resultObj.command} ${resultObj.rowCount} rows. ${anyExtra}`);
+    } else if (resultObj.fields !== null) {
+      console.log(`Success: ${resultObj.command}. ${anyExtra} ${resultObj.fields}`);
     } else {
-      console.log(`Success: ${resultObj.command}`);
+      console.log(`Success: ${resultObj.command}. ${anyExtra}`);
     }
   }
 };
@@ -32,7 +33,7 @@ pool.query(`
   .then((result) => {
     logResult(result);
   })
-  .catch((err) => { console.error('ERROR DROPPING TABLES', err); })
+  .catch(() => { console.error('ERROR DROPPING TABLES, likely don\'t yet exist'); })
   .then(() => pool.query(`
       CREATE TABLE IF NOT EXISTS items (
         id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY
@@ -48,7 +49,7 @@ pool.query(`
         name varchar(1000),
         size varchar(20),
         height numeric(2, 0),
-        weight numeric(2, 0),
+        weight numeric(3, 0),
         age numeric(2, 0),
         location varchar(100)
       );
@@ -62,7 +63,7 @@ pool.query(`
         id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         item_id int REFERENCES items (id),
         user_id int REFERENCES users (id),
-        date date,
+        date timestamp,
         title text,
         body text,
         stars numeric(1, 0),
