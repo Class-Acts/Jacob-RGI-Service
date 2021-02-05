@@ -1,4 +1,5 @@
-var { Pool }= require('pg');
+const { Pool } = require('pg');
+
 const pool = new Pool({
   user: 'sdc',
   host: 'localhost',
@@ -8,42 +9,40 @@ const pool = new Pool({
   // connectionString: 'postgres://sdc:pineapple@localhost:5432/reviews'
 });
 
-//Logging
-pool.on('connect', client => {
-  console.log(`client connected to pool`)
-})
+// Logging
+const logging = true;
+pool.on('connect', (client) => {
+  console.log('client connected to pool');
+});
 const logResult = (resultObj) => {
-  if (resultObj.rowCount !== undefined) {
-    console.log(`Success: ${resultObj.command} ${resultObj.rowCount} rows`);
-  } else if (resultObj.fields !== undefined) {
-    console.log(`Success: ${resultObj.command} ${resultObj.fields}`)
-  } else {
-    console.log(`Success: ${resultObj.command}`)
+  if (logging) {
+    if (resultObj.rowCount !== undefined) {
+      console.log(`Success: ${resultObj.command} ${resultObj.rowCount} rows`);
+    } else if (resultObj.fields !== undefined) {
+      console.log(`Success: ${resultObj.command} ${resultObj.fields}`);
+    } else {
+      console.log(`Success: ${resultObj.command}`);
+    }
   }
-}
-
-
+};
 
 pool.query(`
     DROP TABLE items, reviews, users, found_helpful;
   `)
-  .then((result)=>{
+  .then((result) => {
     logResult(result);
   })
-  .catch((err)=>{console.error('ERROR DROPPING TABLES',err)})
-  .then(()=> {
-    return pool.query(`
+  .catch((err) => { console.error('ERROR DROPPING TABLES', err); })
+  .then(() => pool.query(`
       CREATE TABLE IF NOT EXISTS items (
         id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY
       );
-    `)
-  })
-  .then((result)=>{
+    `))
+  .then((result) => {
     logResult(result);
   })
-  .catch((err)=>{console.error('ERROR CREATING items',err)})
-  .then(()=> {
-    return pool.query(`
+  .catch((err) => { console.error('ERROR CREATING items', err); })
+  .then(() => pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         name varchar(1000),
@@ -53,14 +52,12 @@ pool.query(`
         age numeric(2, 0),
         location varchar(100)
       );
-    `)
-  })
-  .catch((err)=>{console.error('ERROR CREATING users',err)})
-  .then((result)=>{
+    `))
+  .catch((err) => { console.error('ERROR CREATING users', err); })
+  .then((result) => {
     logResult(result);
   })
-  .then(()=> {
-    return pool.query(`
+  .then(() => pool.query(`
       CREATE TABLE IF NOT EXISTS reviews (
         id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         item_id int REFERENCES items (id),
@@ -73,28 +70,25 @@ pool.query(`
         width numeric(1, 0),
         recommend boolean
       );
-    `);
-  })
-  .then((result)=>{
+    `))
+  .then((result) => {
     logResult(result);
   })
-  .catch((err)=>{console.error('ERROR CREATING items',err)})
-  .then(()=>{
-    return pool.query(`
+  .catch((err) => { console.error('ERROR CREATING items', err); })
+  .then(() => pool.query(`
     CREATE TABLE IF NOT EXISTS found_helpful (
       id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
       review_id int REFERENCES reviews (id),
       user_id int REFERENCES users (id)
       );
-    `);
-  })
-  .then((result)=>{
+    `))
+  .then((result) => {
     logResult(result);
   })
-  .catch((err)=>{console.error('ERROR CREATING found_helpful',err)})
-  .then(()=>{
+  .catch((err) => { console.error('ERROR CREATING found_helpful', err); })
+  .then(() => {
     console.log('ending');
     return pool.end();
   })
-  .then(()=>{console.log('ended')})
-  .catch((err)=>{console.error(err)});
+  .then(() => { console.log('ended'); })
+  .catch((err) => { console.error(err); });
