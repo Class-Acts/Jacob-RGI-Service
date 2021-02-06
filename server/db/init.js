@@ -11,8 +11,8 @@ const pool = new Pool({
 
 // Logging
 const logging = true;
-pool.on('connect', (client) => {
-  console.log('client connected to pool');
+pool.on('connect', () => {
+  console.log('Connected to pool');
 });
 const logResult = (resultObj, more) => {
   const anyExtra = more || '';
@@ -47,7 +47,7 @@ pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         name varchar(1000),
-        size varchar(20),
+        size varchar(50),
         height numeric(2, 0),
         weight numeric(3, 0),
         age numeric(2, 0),
