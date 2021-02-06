@@ -1,131 +1,83 @@
-const connection = require('./connection.js');
+const pool = require('./connection.js');
 
-const connect = () => {
-  return connection.connect((err) => {
-    if (err) {
-      console.log('cannot connect to db', err);
-    } else {
-      console.log('connected to db');
-    }
-  });
-}
+// Controllers
+const insertItem = (client) => {
+  const connection = client || pool;
+  const text = 'INSERT INTO items DEFAULT VALUES;';
+  return connection.query(text);
+};
 
-const dropDatabase = () => {
-  return connection.query(`DROP DATABASE reviews`);
-}
+const insertReview = (client, data) => {
+  const connection = client || pool;
+  const values = [
+    data.item_id,
+    data.user_id,
+    data.date,
+    data.title,
+    data.body,
+    data.stars,
+    data.fit,
+    data.width,
+    data.recommend,
+  ];
+  const text = `INSERT INTO reviews (
+    item_id,
+    user_id,
+    date,
+    title,
+    body,
+    stars,
+    fit,
+    width,
+    recommend
+  ) VALUES (
+    $1, $2, $3, $4, $5, $6, $7, $8, $9
+  );`;
+  return connection.query(text, values);
+};
 
-const buildDatabase = () => {
-  return connection.query('CREATE DATABASE IF NOT EXISTS reviews');
-}
+const insertUser = (client, data) => {
+  const connection = client || pool;
+  const values = [
+    data.name,
+    data.size,
+    data.height,
+    data.weight,
+    data.age,
+    data.location,
+  ];
+  const text = `INSERT INTO users (
+    name,
+    size,
+    height,
+    weight,
+    age,
+    location
+  ) VALUES (
+    $1, $2, $3, $4, $5, $6
+  );`;
+  return connection.query(text, values);
+};
 
-const useDatabase = () => {
-  return connection.query(`USE reviews`);
-}
+const insertFoundHelpful = (client, data) => {
+  const connection = client || pool;
+  const values = [data.review_id, data.user_id];
+  const text = 'INSERT INTO found_helpful (review_id, user_id) VALUES ($1, $2);';
+  return connection.query(text, values);
+};
 
-const buildReviewsTable = () => {
-  return connection.query(`
-  CREATE TABLE IF NOT EXISTS users (
-
-    id smallint not null auto_increment,
-    name varchar(40) not null,
-    number_reviews tinyint not null,
-    typical_size varchar(20) not null,
-    height varchar(20) not null,
-    weight varchar(30) not null,
-    age varchar(30),
-    location varchar(50) not null,
-    primary key (id)
-    )
-  `);
-}
-
-const buildUsersTable = () => {
-  return connection.query(`
-  CREATE TABLE IF NOT EXISTS reviews (
-
-    id smallint not null auto_increment,
-    shoe_id smallint not null,
-    user_id smallint not null references users(id),
-    review_date date not null,
-    title varchar(200) not null,
-    body varchar(4000) not null,
-    stars tinyint not null,
-    fit tinyint not null,
-    width tinyint not null,
-    helpful tinyint not null,
-    not_helpful tinyint not null,
-    recommended tinyint(1) not null,
-    primary key (id)
-    )
-  `)
-}
-
-
-const truncateTable = (tablename, cb) => {
-  connection.query('TRUNCATE ' + tablename, (err, results) => {
-    if (err) {
-      console.log('cannot truncate ' + tablename);
-    } else {
-      console.log('truncated ' + tablename);
-      cb(null, results);
-    }
-  })
-}
-
-const insertData = (data, tablename, cb) => {
-  let query = 'INSERT INTO ' + tablename + ' VALUES ?';
-  connection.query(query, [data], (err, results) => {
-    if (err) {
-      console.log('err', err);
-    } else {
-      console.log('inserted data at ' + tablename);
-      cb(null, results);
-    }
-  })
-}
-
-
-const getReviewData = (shoeId, cb) => {
-  connection.query('USE reviews', (err) => {
-    if (err) {
-      console.log('could not use reviews', err);
-    } else {
-      connection.query('SELECT * FROM reviews WHERE shoe_id = ' + shoeId, (err, results) => {
-        if (err) {
-          console.log('error querying the reviews table', err);
-        } else {
-          console.log('success querying the reviews table');
-          let responseData = [];
-          let counter = 0;
-          responseData.push([results]);
-          results.forEach((review) => {
-            connection.query('SELECT * FROM users WHERE id = ' + review.user_id, (err, data) => {
-              if (err) {
-                console.log(err);
-              } else {
-                responseData.push(data);
-                counter ++
-                if (counter === results.length) {
-                  cb(null, responseData);
-                }
-              }
-            })
-          })
-        }
-      })
-    }
-  })
-}
-
+const getReviewData = (itemId, cb) => {
+  pool.query(`SELECT * FROM reviews WHERE id = ${itemId}`)
+    .then((result) => {
+      console.log(result);
+      cb(null, result);
+    });
+};
 
 module.exports = {
-  connect,
-  dropDatabase,
-  buildDatabase,
-  useDatabase,
-  buildReviewsTable,
-  buildUsersTable,
-  truncateTable,
-  insertData,
-  getReviewData
-}
+  insertItem,
+  insertReview,
+  insertUser,
+  insertFoundHelpful,
+  getReviewData,
+};
