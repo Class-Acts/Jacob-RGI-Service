@@ -12,6 +12,9 @@
     "dev:client": "webpack --watch",
     "db:init": "node server/db/init",
     "db:seed": "node server/db/seed",
+    "db:seed1k": "COUNT=1000 npm run db:seed",
+    "db:seed100k": "COUNT=100000 npm run db:seed",
+    "db:seed10m": "COUNT=10000000 npm run db:seed",
     "test": "jest"
   },
   "dependencies": {
@@ -35,6 +38,7 @@
     "@babel/preset-react": "^7.12.10",
     "babel-loader": "^8.2.2",
     "babel-plugin-styled-components": "^1.12.0",
+    "csv-write-stream": "^2.0.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.19.0",
     "eslint-config-airbnb": "^18.2.1",
