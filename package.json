@@ -10,6 +10,7 @@
     "start": "node server/index.js",
     "dev:server": "nodemon server/index.js",
     "dev:client": "webpack --watch",
+    "db:copy": "node server/db/copyCSV.js",
     "db:init": "node server/db/init",
     "db:seed": "node server/db/seed",
     "db:seed1k": "COUNT=1000 npm run db:seed",
