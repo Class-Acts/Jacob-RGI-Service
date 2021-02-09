@@ -66,11 +66,25 @@ const insertFoundHelpful = (client, data) => {
   return connection.query(text, values);
 };
 
-const getReviewData = (itemId, cb) => {
-  pool.query(`SELECT * FROM reviews WHERE id = ${itemId}`)
-    .then((result) => {
-      console.log(result);
-      cb(null, result);
+const getReviewData = (itemId, log = false) => {
+  const responseData = {};
+  const analyze = (log) ? 'EXPLAIN ANALYZE ' : '';
+  return pool.query(`
+      ${analyze}
+      SELECT r.title, r.body, r.date, r.stars, r.fit, r.width, r.recommend,
+      u.name, u.size, u.height, u.weight, u.age, u.location,
+      (SELECT COUNT(*) FROM found_helpful h WHERE h.review_id = r.id) AS helpful,
+      (SELECT COUNT(*) FROM reviews WHERE user_id = u.id ) AS number_of_reviews
+      FROM reviews r
+      LEFT JOIN users u
+      ON u.id = r.user_id
+      WHERE r.item_id = ${itemId}
+    `)
+    .then((reviewResults) => {
+      const reviews = reviewResults.rows;
+      responseData.reviews = reviews;
+      // cb(null, reviewResults);
+      return Promise.resolve(responseData);
     });
 };
 
