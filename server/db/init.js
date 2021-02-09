@@ -12,40 +12,21 @@ const pool = new Pool({
 // Logging
 const logging = true;
 pool.on('connect', () => {
-  console.log('Connected to pool');
+  console.log('created pool for initializing postgres db');
 });
-const logResult = (resultObj, more) => {
-  const anyExtra = more || '';
-  if (logging) {
-    if (resultObj.rowCount !== null) {
-      console.log(`Success: ${resultObj.command} ${resultObj.rowCount} rows. ${anyExtra}`);
-    } else if (resultObj.fields !== null) {
-      console.log(`Success: ${resultObj.command}. ${anyExtra} ${resultObj.fields}`);
-    } else {
-      console.log(`Success: ${resultObj.command}. ${anyExtra}`);
-    }
-  }
-};
 
-pool.query(`
-    DROP TABLE items, reviews, users, found_helpful;
-  `)
-  .then((result) => {
-    logResult(result);
-  })
-  .catch(() => { console.error('ERROR DROPPING TABLES, likely don\'t yet exist'); })
-  .then(() => pool.query(`
+(() => {
+  pool.query('DROP TABLE IF EXISTS items, users, reviews, found_helpful CASCADE;')
+    .catch(() => { console.error('ERROR DROPPING TABLES, likely don\'t yet exist'); })
+    .then(() => pool.query(`
       CREATE TABLE IF NOT EXISTS items (
-        id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY
+        id serial PRIMARY KEY
       );
     `))
-  .then((result) => {
-    logResult(result);
-  })
-  .catch((err) => { console.error('ERROR CREATING items', err); })
-  .then(() => pool.query(`
+    .catch((err) => { console.error('ERROR CREATING items', err); })
+    .then(() => pool.query(`
       CREATE TABLE IF NOT EXISTS users (
-        id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        id serial PRIMARY KEY,
         name varchar(1000),
         size varchar(50),
         height numeric(2, 0),
@@ -54,13 +35,10 @@ pool.query(`
         location varchar(100)
       );
     `))
-  .catch((err) => { console.error('ERROR CREATING users', err); })
-  .then((result) => {
-    logResult(result);
-  })
-  .then(() => pool.query(`
+    .catch((err) => { console.error('ERROR CREATING users', err); })
+    .then(() => pool.query(`
       CREATE TABLE IF NOT EXISTS reviews (
-        id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        id serial PRIMARY KEY,
         item_id int REFERENCES items (id),
         user_id int REFERENCES users (id),
         date timestamp,
@@ -72,24 +50,34 @@ pool.query(`
         recommend boolean
       );
     `))
-  .then((result) => {
-    logResult(result);
-  })
-  .catch((err) => { console.error('ERROR CREATING items', err); })
-  .then(() => pool.query(`
-    CREATE TABLE IF NOT EXISTS found_helpful (
-      id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-      review_id int REFERENCES reviews (id),
-      user_id int REFERENCES users (id)
-      );
+    .catch((err) => { console.error('ERROR CREATING items', err); })
+    .then(() => pool.query(`
+      CREATE TABLE IF NOT EXISTS found_helpful (
+        id serial PRIMARY KEY,
+        review_id int REFERENCES reviews (id),
+        user_id int REFERENCES users (id)
+        );
     `))
-  .then((result) => {
-    logResult(result);
-  })
-  .catch((err) => { console.error('ERROR CREATING found_helpful', err); })
-  .then(() => {
-    console.log('ending');
-    return pool.end();
-  })
-  .then(() => { console.log('ended'); })
-  .catch((err) => { console.error(err); });
+    .catch((err) => { console.error('ERROR CREATING found_helpful', err); })
+    .then(() => pool.query(`
+      CREATE INDEX user_id_idx
+      ON reviews (user_id);
+    `))
+    .catch((err) => { console.error('ERROR CREATING user_id_idx on reviews', err); })
+    .then(() => pool.query(`
+      CREATE INDEX item_id_idx
+      ON reviews (item_id);
+    `))
+    .catch((err) => { console.error('ERROR CREATING item_id_index on reviews', err); })
+    .then(() => pool.query(`
+      CREATE INDEX review_id_idx
+      ON found_helpful (review_id);
+    `))
+    .catch((err) => { console.error('ERROR CREATING review_id_idx on found_helpful', err); })
+    .then(() => {
+      console.log('ending pool');
+      return pool.end();
+    })
+    .then(() => { console.log('\n--Finished postgres initialization--\n'); })
+    .catch((err) => { console.error(err); });
+})();
