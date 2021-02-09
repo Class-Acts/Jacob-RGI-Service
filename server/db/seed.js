@@ -3,6 +3,7 @@ const fs = require('fs');
 const csvWriter = require('csv-write-stream');
 const controllers = require('./db-controllers.js');
 const pool = require('./connection.js');
+const copyCSV = require('./copyCSV.js');
 
 const { COUNT } = process.env;
 
@@ -175,65 +176,5 @@ cb();
 console.time('seedTime');
 writeData(() => {
   console.timeEnd('seedTime');
+  copyCSV();
 });
-
-
-// let i = 0;
-// let canWriteItems = true;
-// function writeItems = () => {
-//   while (i < COUNT) {
-//     if (canWriteItems) {
-//       i += 1;
-//       canWriteItems = itemWriter.write({ id: i });
-//     } else {
-//       itemWriter.once('drain', ()=>{canWriteItems = true})
-//     }
-//     if (canWriteUsers) {
-//       i += 1;
-//       canWriteUsers = userWriter.write(User(i));
-//     } else {
-//       userWriter.once('drain', ()=>{canWriteUsers = true})
-//     }
-//   }
-// }();
-
-// let userTotal = 0;
-// let canWriteUsers = true;
-// i = 0;
-// function writeUsers = () => {
-//   while (i < COUNT) {
-//     if (canWriteUsers) {
-//       i += 1;
-//       canWriteUsers = userWriter.write({ id: i });
-//     } else {
-//       userWriter.once('drain', ()=>{canWriteUsers = true})
-//     }
-//   }
-// }();
-
-// let reviewTotal = 0;
-// let canWriteReviews = true;
-// i = 0;
-// function writeReviews = () => {
-//   while (i < COUNT) {
-//     if (canWriteReviews) {
-//       i += 1;
-//       canWriteReviews = reviewWriter.write({ id: i });
-//     } else {
-//       reviewWriter.once('drain', ()=>{canWriteReviews = true})
-//     }
-//   }
-// }();
-
-// let canWriteHelpful = true;
-// i = 0;
-// function writeFoundHelpful = () => {
-//   while (i < COUNT) {
-//     if (canWriteHelpful) {
-//       i += 1;
-//       canWriteHelpful = foundHelpfulWriter.write({ id: i });
-//     } else {
-//       foundHelpfulWriter.once('drain', ()=>{canWriteHelpful = true})
-//     }
-//   }
-// }();
