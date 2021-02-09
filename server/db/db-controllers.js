@@ -83,7 +83,6 @@ const getReviewData = (itemId, log = false) => {
     .then((reviewResults) => {
       const reviews = reviewResults.rows;
       responseData.reviews = reviews;
-      // cb(null, reviewResults);
       return Promise.resolve(responseData);
     });
 };

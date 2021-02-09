@@ -6,11 +6,9 @@ const pool = new Pool({
   database: 'reviews',
   password: 'pineapple',
   port: 5432,
-  // connectionString: 'postgres://sdc:pineapple@localhost:5432/reviews'
 });
 
 // Logging
-const logging = true;
 pool.on('connect', () => {
   console.log('created pool for initializing postgres db');
 });
