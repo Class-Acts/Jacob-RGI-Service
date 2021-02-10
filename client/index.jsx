@@ -331,17 +331,32 @@ class App extends React.Component {
   //calls componentMath() on every mount
   componentDidMount() {
     let shoeId = this.state.shoeId;
-    $.ajax('http://localhost:3000/api/shoes/' + shoeId + '/reviews')
+    $.ajax(`/api/shoes/${shoeId}/reviews`)
       .then((result) => {
+        let reviewInfo = result.reviews;
         let userInfo = [];
-        let reviewInfo = [];
-        result.forEach((item) => {
-          if (item[0].name !== undefined) {
-            userInfo.push(item[0]);
-          } else {
-            reviewInfo.push(item[0]);
-          }
-        })
+        reviewInfo.forEach((item) => {
+          const { item_id, user_id, name, size, height, weight, age, location, number_of_reviews } = item;
+          userInfo.push({
+            id: user_id,
+            name,
+            typical_size: size,
+            height,
+            weight,
+            age,
+            location,
+            number_reviews: number_of_reviews,
+          });
+        });
+        reviewInfo = reviewInfo.map((review) => {
+          const rightReview = review;
+          rightReview.shoe_id = review.item_id;
+          rightReview.review_date = review.date;
+          rightReview.helpful = (review.recommend) ? 1 : 0;
+          rightReview.not_helpful = (!review.recommend) ? 1 : 0;
+          return rightReview;
+        });
+        reviewInfo = [reviewInfo];
         let datedReviewInfo = this.dateSort(reviewInfo);
         this.setState({reviews: datedReviewInfo, users: userInfo});
         let displayInfo = this.colateInfo(datedReviewInfo);

@@ -83,10 +83,14 @@ const userCSVpath = `${csvPath}userSeed.csv`;
 const foundHelpfulCSVpath = `${csvPath}foundHelpfulSeed.csv`;
 
 // Delete any existing CSV files
-fs.unlinkSync(itemCSVpath);
-fs.unlinkSync(reviewCSVpath);
-fs.unlinkSync(userCSVpath);
-fs.unlinkSync(foundHelpfulCSVpath);
+try {
+  fs.unlinkSync(itemCSVpath);
+  fs.unlinkSync(reviewCSVpath);
+  fs.unlinkSync(userCSVpath);
+  fs.unlinkSync(foundHelpfulCSVpath);
+} catch (error) {
+  console.log('No files to unlink');
+}
 
 itemWriter.pipe(fs.createWriteStream(itemCSVpath));
 reviewWriter.pipe(fs.createWriteStream(reviewCSVpath));

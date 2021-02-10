@@ -16,6 +16,7 @@
     "db:seed1k": "COUNT=1000 npm run db:seed",
     "db:seed100k": "COUNT=100000 npm run db:seed",
     "db:seed10m": "COUNT=10000000 npm run db:seed",
+    "stresstest": "k6 run testing/k6.js",
     "test": "jest"
   },
   "dependencies": {
@@ -26,8 +27,10 @@
     "express": "^4.17.1",
     "faker": "^5.1.0",
     "jquery": "^3.5.1",
+    "k6": "0.0.0",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
+    "newrelic": "^7.1.1",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
     "postgres-date": "^2.0.0",
