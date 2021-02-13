@@ -2,7 +2,7 @@ const express = require('express');
 require('newrelic');
 
 const app = express();
-const PORT = 3000;
+const PORT = 80;
 const cors = require('cors');
 const controllers = require('./db/db-controllers.js');
 

@@ -27,3 +27,4 @@ dist/
 public/bundle.js
 server/db/csv/*
 newrelic.js
+public/loaderio*

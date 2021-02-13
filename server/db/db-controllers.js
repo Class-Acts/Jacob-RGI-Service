@@ -78,7 +78,7 @@ const getReviewData = (itemId, log = false) => {
       FROM reviews r
       LEFT JOIN users u
       ON u.id = r.user_id
-      WHERE r.item_id = ${itemId}
+      WHERE r.item_id = ${itemId};
     `)
     .then((reviewResults) => {
       const reviews = reviewResults.rows;

@@ -12,7 +12,7 @@ const copyCSV = async () => pool.connect()
     console.log('starting items copy');
     console.time('Item copy time:');
     return client.query(`
-    COPY items(id)
+    \\COPY items(id)
     FROM '${itemCSVpath}'
     DELIMITER ','
     CSV HEADER;
@@ -29,7 +29,7 @@ const copyCSV = async () => pool.connect()
         console.log('starting users copy');
         console.time('User copy time:');
         return client.query(`
-      COPY users(
+      \\COPY users(
         id,
         name,
         size,
@@ -55,7 +55,7 @@ const copyCSV = async () => pool.connect()
         console.log('starting reviews copy');
         console.time('Review copy time:');
         return client.query(`
-      COPY reviews(
+      \\COPY reviews(
         id,
         item_id,
         user_id,
@@ -84,7 +84,7 @@ const copyCSV = async () => pool.connect()
         console.log('starting found_helpful copy');
         console.time('Found_helpful copy time:');
         return client.query(`
-      COPY found_helpful(
+      \\COPY found_helpful(
         id,
         review_id,
         user_id

@@ -153,7 +153,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      shoeId: 20,
+      shoeId: 1,
       sortMethod: 'Most Recent',
       starSelection: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
     };
@@ -350,6 +350,7 @@ class App extends React.Component {
         });
         reviewInfo = reviewInfo.map((review) => {
           const rightReview = review;
+          rightReview.recommended = review.recommend;
           rightReview.shoe_id = review.item_id;
           rightReview.review_date = review.date;
           rightReview.helpful = (review.recommend) ? 1 : 0;

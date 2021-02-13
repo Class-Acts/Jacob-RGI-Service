@@ -89,7 +89,11 @@ try {
   fs.unlinkSync(userCSVpath);
   fs.unlinkSync(foundHelpfulCSVpath);
 } catch (error) {
-  console.log('No files to unlink');
+  console.log(error,'\nNo files to unlink, crpwdeating');
+  fs.writeFileSync(itemCSVpath, '');
+  fs.writeFileSync(reviewCSVpath, '');
+  fs.writeFileSync(userCSVpath, '');
+  fs.writeFileSync(foundHelpfulCSVpath, '');
 }
 
 itemWriter.pipe(fs.createWriteStream(itemCSVpath));
@@ -157,7 +161,7 @@ const writeData = (async (cb = (() => {}), step = 1, offset = 0) => {
         FOUND_HELPFUL_ID += 1;
       }
     }
-    if (i % 10000 === 0) {
+    if (i % 100000 === 0) {
       console.timeEnd('10kTime');
       console.time('10kTime');
       console.timeLog('seedTime');
